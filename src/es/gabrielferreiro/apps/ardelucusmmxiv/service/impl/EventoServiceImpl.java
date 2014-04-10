@@ -6,6 +6,7 @@ package es.gabrielferreiro.apps.ardelucusmmxiv.service.impl;
 import java.util.List;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import es.gabrielferreiro.apps.ardelucusmmxiv.async.AsyncHandler;
 import es.gabrielferreiro.apps.ardelucusmmxiv.dao.EventoDao;
 import es.gabrielferreiro.apps.ardelucusmmxiv.dao.impl.DaoFactory;
