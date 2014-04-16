@@ -17,10 +17,10 @@ public class Evento implements Serializable {
 	private Integer _id;
 	private String titulo;
 	private String descripcion;
-	private Float latitud;
-	private Float longitud;
+	private Double latitud;
+	private Double longitud;
 	private Date tiempo_realizacion;
-	private Float precio;
+	private String precio;
 	
 	public Integer getId() {
 		return _id;
@@ -40,16 +40,16 @@ public class Evento implements Serializable {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	public Float getLatitud() {
+	public Double getLatitud() {
 		return latitud;
 	}
-	public void setLatitud(Float latitud) {
+	public void setLatitud(Double latitud) {
 		this.latitud = latitud;
 	}
-	public Float getLongitud() {
+	public Double getLongitud() {
 		return longitud;
 	}
-	public void setLongitud(Float longitud) {
+	public void setLongitud(Double longitud) {
 		this.longitud = longitud;
 	}
 	public Date getTiempoRealizacion() {
@@ -58,10 +58,10 @@ public class Evento implements Serializable {
 	public void setTiempoRealizacion(Date tiempo_realizacion) {
 		this.tiempo_realizacion = tiempo_realizacion;
 	}
-	public Float getPrecio() {
+	public String getPrecio() {
 		return precio;
 	}
-	public void setPrecio(Float precio) {
+	public void setPrecio(String precio) {
 		this.precio = precio;
 	}
 	
