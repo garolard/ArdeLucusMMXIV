@@ -6,23 +6,22 @@ package es.gabrielferreiro.apps.ardelucusmmxiv.service.impl;
 import java.util.List;
 
 import android.os.AsyncTask;
-import android.util.Log;
 import es.gabrielferreiro.apps.ardelucusmmxiv.async.AsyncHandler;
-import es.gabrielferreiro.apps.ardelucusmmxiv.dao.EventoDao;
+import es.gabrielferreiro.apps.ardelucusmmxiv.dao.LocalDao;
 import es.gabrielferreiro.apps.ardelucusmmxiv.dao.impl.DaoFactory;
-import es.gabrielferreiro.apps.ardelucusmmxiv.model.Evento;
-import es.gabrielferreiro.apps.ardelucusmmxiv.service.EventoService;
+import es.gabrielferreiro.apps.ardelucusmmxiv.model.Local;
+import es.gabrielferreiro.apps.ardelucusmmxiv.service.LocalService;
 
 /**
  * @author Gabriel
  *
  */
-public class EventoServiceImpl implements EventoService {
+public class LocalServiceImpl implements LocalService {
 
-	private EventoDao dao;
+	private LocalDao dao;
 	
-	public EventoServiceImpl() {
-		dao = DaoFactory.getEventoHttpInstance();
+	public LocalServiceImpl() {
+		dao = DaoFactory.getLocalHttpInstance();
 	}
 	
 	/* (non-Javadoc)
@@ -47,26 +46,26 @@ public class EventoServiceImpl implements EventoService {
 	 * @see es.gabrielferreiro.apps.ardelucusmmxiv.service.Service#saveAsync(java.lang.Object, es.gabrielferreiro.apps.ardelucusmmxiv.async.AsyncHandler)
 	 */
 	@Override
-	public void saveAsync(Evento obj, AsyncHandler handler) {
-		SaveTaskProxy proxy = new SaveTaskProxy(handler);
-		proxy.execute(obj);
+	public void saveAsync(Local obj, AsyncHandler handler) {
+		// TODO Auto-generated method stub
+
 	}
 	
-	private class FindTaskProxy extends AsyncTask<Integer, Void, Evento> {
-
+	private class FindTaskProxy extends AsyncTask<Integer, Void, Local> {
+		
 		private AsyncHandler handler;
 		
 		public FindTaskProxy(AsyncHandler handler) {
 			this.handler = handler;
 		}
-		
+
 		@Override
-		protected Evento doInBackground(Integer... params) {
+		protected Local doInBackground(Integer... params) {
 			return dao.find(params[0]);
 		}
 		
 		@Override
-		protected void onPostExecute(Evento result) {
+		protected void onPostExecute(Local result) {
 			super.onPostExecute(result);
 			if (result != null) {
 				handler.onSuccess(result);
@@ -77,21 +76,21 @@ public class EventoServiceImpl implements EventoService {
 		
 	}
 
-	private class FindAllTaskProxy extends AsyncTask<Void, Void, List<Evento>> {
-
+	private class FindAllTaskProxy extends AsyncTask<Void, Void, List<Local>> {
+		
 		private AsyncHandler handler;
 		
 		public FindAllTaskProxy(AsyncHandler handler) {
 			this.handler = handler;
 		}
-		
+
 		@Override
-		protected List<Evento> doInBackground(Void... params) {
+		protected List<Local> doInBackground(Void... params) {
 			return dao.findAll();
 		}
 		
 		@Override
-		protected void onPostExecute(List<Evento> result) {
+		protected void onPostExecute(List<Local> result) {
 			super.onPostExecute(result);
 			if (result != null) {
 				handler.onSuccess(result);
@@ -101,31 +100,4 @@ public class EventoServiceImpl implements EventoService {
 		}
 		
 	}
-
-	private class SaveTaskProxy extends AsyncTask<Evento, Void, Integer> {
-
-		private AsyncHandler handler;
-		
-		public SaveTaskProxy(AsyncHandler handler) {
-			this.handler = handler;
-		}
-		
-		@Override
-		protected Integer doInBackground(Evento... params) {
-			Integer objId = dao.save(params[0]);
-			return objId;
-		}
-		
-		@Override
-		protected void onPostExecute(Integer result) {
-			super.onPostExecute(result);
-			if (result != null) {
-				handler.onSuccess(result);
-			} else {
-				handler.onError(result, new Exception("Error guardando objeto"));
-			}
-		}
-		
-	}
-	
 }

@@ -3,7 +3,11 @@
  */
 package es.gabrielferreiro.apps.ardelucusmmxiv.dao.impl;
 
+import java.lang.reflect.Field;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -14,6 +18,7 @@ import android.util.Log;
 
 import es.gabrielferreiro.apps.ardelucusmmxiv.dao.EventoDao;
 import es.gabrielferreiro.apps.ardelucusmmxiv.http.HttpClientHelper;
+import es.gabrielferreiro.apps.ardelucusmmxiv.json.JSONSerializationUtil;
 import es.gabrielferreiro.apps.ardelucusmmxiv.model.Evento;
 
 /**
@@ -29,8 +34,23 @@ public class HttpEventoDao implements EventoDao {
 	 */
 	@Override
 	public Evento find(Integer objId) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		StringBuilder targetUriBuilder = new StringBuilder(EVENTOS_URL);
+		targetUriBuilder.append("/");
+		targetUriBuilder.append(objId);
+		String targetUri = targetUriBuilder.toString();
+		
+		String eventoAsJson = HttpClientHelper.GET(targetUri);
+		Evento targetEvento = new Evento();
+		
+		try {
+			JSONObject jsonObject = new JSONObject(eventoAsJson);
+			JSONSerializationUtil.deserializeObject(jsonObject, targetEvento);
+		} catch (JSONException je) {
+			Log.e("HttpEventoDao", je.getMessage());
+		}
+		
+		return targetEvento;
 	}
 
 	/* (non-Javadoc)
@@ -39,35 +59,15 @@ public class HttpEventoDao implements EventoDao {
 	@Override
 	public List<Evento> findAll() {
 		String allEventosAsJson = HttpClientHelper.GET(EVENTOS_URL);
-		Log.d("HttpEventoDao", allEventosAsJson);
 		List<Evento> allEventos = new ArrayList<Evento>();
 		
-		// Se podría automatizar usando anotaciones
 		try {
 			JSONObject jsonObject = new JSONObject(allEventosAsJson);
 			JSONArray allEventosJson = jsonObject.getJSONArray("eventos");
 			for (int i = 0; i < allEventosJson.length(); i++) {
 				JSONObject eventoJson = allEventosJson.getJSONObject(i);
 				Evento evento = new Evento();
-				
-				evento.setId(eventoJson.getInt("_id"));
-				evento.setTitulo(eventoJson.getString("titulo"));
-				evento.setDescripcion(eventoJson.getString("descripcion"));
-				
-				try {
-					evento.setLatitud(eventoJson.getDouble("latitud"));
-				} catch (JSONException je) {
-					evento.setLatitud(null);
-				}
-				
-				try {
-					evento.setLongitud(eventoJson.getDouble("longitud"));
-				} catch (JSONException je) {
-					evento.setLongitud(null);
-				}
-				
-				evento.setPrecio(eventoJson.getString("precio"));
-				
+				JSONSerializationUtil.deserializeObject(eventoJson, evento);				
 				allEventos.add(evento);
 			}
 		} catch (JSONException je) {
@@ -85,5 +85,4 @@ public class HttpEventoDao implements EventoDao {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

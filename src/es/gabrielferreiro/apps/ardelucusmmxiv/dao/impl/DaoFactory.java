@@ -4,6 +4,7 @@
 package es.gabrielferreiro.apps.ardelucusmmxiv.dao.impl;
 
 import es.gabrielferreiro.apps.ardelucusmmxiv.dao.EventoDao;
+import es.gabrielferreiro.apps.ardelucusmmxiv.dao.LocalDao;
 
 /**
  * @author Gabriel
@@ -11,23 +12,32 @@ import es.gabrielferreiro.apps.ardelucusmmxiv.dao.EventoDao;
  */
 public class DaoFactory {
 
-	private static EventoDao mockDao = null;
-	private static EventoDao httpDao = null;
+	private static EventoDao eventoMockDao = null;
+	private static EventoDao eventoHttpDao = null;
+	private static LocalDao localHttpDao = null;
 	
-	public static EventoDao getMockInstance() {
-		if (mockDao == null) {
-			mockDao = new MockEventoDao();
+	public static EventoDao getEventoMockInstance() {
+		if (eventoMockDao == null) {
+			eventoMockDao = new MockEventoDao();
 		}
 		
-		return mockDao;
+		return eventoMockDao;
 	}
 	
-	public static EventoDao getHttpInstance() {
-		if (httpDao == null) {
-			httpDao = new HttpEventoDao();
+	public static EventoDao getEventoHttpInstance() {
+		if (eventoHttpDao == null) {
+			eventoHttpDao = new HttpEventoDao();
 		}
 		
-		return httpDao;
+		return eventoHttpDao;
+	}
+	
+	public static LocalDao getLocalHttpInstance() {
+		if (localHttpDao == null) {
+			localHttpDao = new HttpLocalDao();
+		}
+		
+		return localHttpDao;
 	}
 	
 }

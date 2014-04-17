@@ -54,10 +54,12 @@ public class FeaturedListAdapter extends BaseAdapter {
 		
 		TextView titulo = (TextView) vi.findViewById(R.id.tituloItem);
 		TextView descripcion = (TextView) vi.findViewById(R.id.descripcionItem);
+		TextView fecha = (TextView) vi.findViewById(R.id.fechaItem);
 		Evento actualItem = this.events.get(position);
 		
 		titulo.setText(actualItem.getTitulo());
 		descripcion.setText(actualItem.getDescripcion());
+		fecha.setText(actualItem.getTiempoRealizacion().toString());
 		
 		return vi;
 	}
