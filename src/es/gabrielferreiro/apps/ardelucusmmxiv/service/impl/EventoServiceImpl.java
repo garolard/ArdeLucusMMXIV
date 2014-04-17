@@ -6,10 +6,11 @@ package es.gabrielferreiro.apps.ardelucusmmxiv.service.impl;
 import java.util.List;
 
 import android.os.AsyncTask;
-import android.util.Log;
 import es.gabrielferreiro.apps.ardelucusmmxiv.async.AsyncHandler;
 import es.gabrielferreiro.apps.ardelucusmmxiv.dao.EventoDao;
 import es.gabrielferreiro.apps.ardelucusmmxiv.dao.impl.DaoFactory;
+import es.gabrielferreiro.apps.ardelucusmmxiv.exception.DaoException;
+import es.gabrielferreiro.apps.ardelucusmmxiv.exception.ServiceException;
 import es.gabrielferreiro.apps.ardelucusmmxiv.model.Evento;
 import es.gabrielferreiro.apps.ardelucusmmxiv.service.EventoService;
 
@@ -55,14 +56,21 @@ public class EventoServiceImpl implements EventoService {
 	private class FindTaskProxy extends AsyncTask<Integer, Void, Evento> {
 
 		private AsyncHandler handler;
+		private ServiceException exception;
 		
 		public FindTaskProxy(AsyncHandler handler) {
 			this.handler = handler;
+			this.exception = null;
 		}
 		
 		@Override
 		protected Evento doInBackground(Integer... params) {
-			return dao.find(params[0]);
+			try {
+				return dao.find(params[0]);
+			} catch (DaoException de) {
+				this.exception = new ServiceException(de.getMessage(), de);
+				return null;
+			}
 		}
 		
 		@Override
@@ -70,8 +78,8 @@ public class EventoServiceImpl implements EventoService {
 			super.onPostExecute(result);
 			if (result != null) {
 				handler.onSuccess(result);
-			} else {
-				handler.onError(result, new Exception("Error recuperando el objeto"));
+			} else if (exception != null) {
+				handler.onError(result, exception);
 			}
 		}
 		
@@ -80,14 +88,21 @@ public class EventoServiceImpl implements EventoService {
 	private class FindAllTaskProxy extends AsyncTask<Void, Void, List<Evento>> {
 
 		private AsyncHandler handler;
+		private ServiceException exception;
 		
 		public FindAllTaskProxy(AsyncHandler handler) {
 			this.handler = handler;
+			this.exception = null;
 		}
 		
 		@Override
 		protected List<Evento> doInBackground(Void... params) {
-			return dao.findAll();
+			try {
+				return dao.findAll();
+			} catch (DaoException de) {
+				this.exception = new ServiceException(de.getMessage(), de);
+				return null;
+			}
 		}
 		
 		@Override
@@ -95,8 +110,8 @@ public class EventoServiceImpl implements EventoService {
 			super.onPostExecute(result);
 			if (result != null) {
 				handler.onSuccess(result);
-			} else {
-				handler.onError(result, new Exception("Error recuperando todos los objetos"));
+			} else if (exception != null) {
+				handler.onError(result, exception);
 			}
 		}
 		
@@ -105,15 +120,22 @@ public class EventoServiceImpl implements EventoService {
 	private class SaveTaskProxy extends AsyncTask<Evento, Void, Integer> {
 
 		private AsyncHandler handler;
+		private ServiceException exception;
 		
 		public SaveTaskProxy(AsyncHandler handler) {
 			this.handler = handler;
+			this.exception = null;
 		}
 		
 		@Override
 		protected Integer doInBackground(Evento... params) {
-			Integer objId = dao.save(params[0]);
-			return objId;
+			try {
+				Integer objId = dao.save(params[0]);
+				return objId;
+			} catch (DaoException de) {
+				this.exception = new ServiceException(de.getMessage(), de);
+				return null;
+			}
 		}
 		
 		@Override
@@ -121,8 +143,8 @@ public class EventoServiceImpl implements EventoService {
 			super.onPostExecute(result);
 			if (result != null) {
 				handler.onSuccess(result);
-			} else {
-				handler.onError(result, new Exception("Error guardando objeto"));
+			} else if (exception != null) {
+				handler.onError(result, exception);
 			}
 		}
 		

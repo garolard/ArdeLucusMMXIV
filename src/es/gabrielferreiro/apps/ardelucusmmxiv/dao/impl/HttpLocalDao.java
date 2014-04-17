@@ -10,8 +10,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
 import es.gabrielferreiro.apps.ardelucusmmxiv.dao.LocalDao;
+import es.gabrielferreiro.apps.ardelucusmmxiv.exception.DaoException;
+import es.gabrielferreiro.apps.ardelucusmmxiv.exception.HttpRequestException;
 import es.gabrielferreiro.apps.ardelucusmmxiv.http.HttpClientHelper;
 import es.gabrielferreiro.apps.ardelucusmmxiv.json.JSONSerializationUtil;
 import es.gabrielferreiro.apps.ardelucusmmxiv.model.Local;
@@ -28,21 +29,25 @@ public class HttpLocalDao implements LocalDao {
 	 * @see es.gabrielferreiro.apps.ardelucusmmxiv.dao.Dao#find(java.lang.Object)
 	 */
 	@Override
-	public Local find(Integer objId) {
+	public Local find(Integer objId) throws
+		DaoException {
 		
 		StringBuilder targetUriBuilder = new StringBuilder(LOCALES_URL);
 		targetUriBuilder.append("/");
 		targetUriBuilder.append(objId);
 		
 		String targetUri = targetUriBuilder.toString();
-		String localAsJson = HttpClientHelper.GET(targetUri);
+		String localAsJson = "";
 		Local targetLocal = new Local();
 		
 		try {
+			localAsJson = HttpClientHelper.GET(targetUri);
 			JSONObject jsonObject = new JSONObject(localAsJson);
 			JSONSerializationUtil.deserializeObject(jsonObject, targetLocal);
+		} catch (HttpRequestException hre) {
+			throw new DaoException(hre.getMessage(), hre);
 		} catch (JSONException je) {
-			Log.e("HttpLocalDao", je.getMessage());
+			throw new DaoException(je.getMessage(), je);
 		}
 		
 		return targetLocal;
@@ -52,11 +57,13 @@ public class HttpLocalDao implements LocalDao {
 	 * @see es.gabrielferreiro.apps.ardelucusmmxiv.dao.Dao#findAll()
 	 */
 	@Override
-	public List<Local> findAll() {
-		String allLocalesAsJson = HttpClientHelper.GET(LOCALES_URL);
+	public List<Local> findAll() throws
+		DaoException {
+		String allLocalesAsJson = "";
 		List<Local> allLocales = new ArrayList<Local>();
 		
 		try {
+			allLocalesAsJson = HttpClientHelper.GET(LOCALES_URL);
 			JSONObject jsonObject = new JSONObject(allLocalesAsJson);
 			JSONArray allLocalesAsArray = jsonObject.getJSONArray("locales");
 			
@@ -67,8 +74,10 @@ public class HttpLocalDao implements LocalDao {
 				allLocales.add(local);
 			}
 			
+		} catch (HttpRequestException hre) {
+			throw new DaoException(hre.getMessage(), hre);
 		} catch (JSONException je) {
-			Log.e("HttpLocalDao", je.getMessage());
+			throw new DaoException(je.getMessage(), je);
 		}
 		
 		return allLocales;

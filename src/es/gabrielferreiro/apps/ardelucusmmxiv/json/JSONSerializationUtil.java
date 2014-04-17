@@ -35,9 +35,9 @@ public class JSONSerializationUtil {
 				Integer value = json.getInt(field.getName());
 				field.set(evento, value);
 			} catch (IllegalAccessException iae) {
-				Log.e("HttpEventoDao", iae.getMessage());
+				Log.e("JSONSerializationUtil", iae.getMessage());
 			} catch (JSONException je) {
-				Log.e("HttpEventoDao", je.getMessage());
+				Log.e("JSONSerializationUtil", je.getMessage());
 			}
 			
 		} else if (field.getType().equals(Double.class)) {
@@ -46,9 +46,9 @@ public class JSONSerializationUtil {
 				Double value = json.getDouble(field.getName());
 				field.set(evento, value);
 			} catch (IllegalAccessException iae) {
-				Log.e("HttpEventoDao", iae.getMessage());
+				Log.e("JSONSerializationUtil", iae.getMessage());
 			} catch (JSONException je) {
-				Log.e("HttpEventoDao", je.getMessage());
+				Log.e("JSONSerializationUtil", je.getMessage());
 			}
 			
 		} else if (field.getType().equals(String.class)) {
@@ -57,9 +57,9 @@ public class JSONSerializationUtil {
 				String value = json.getString(field.getName());
 				field.set(evento, value);
 			} catch (IllegalAccessException iae) {
-				Log.e("HttpEventoDao", iae.getMessage());
+				Log.e("JSONSerializationUtil", iae.getMessage());
 			} catch (JSONException je) {
-				Log.e("HttpEventoDao", je.getMessage());
+				Log.e("JSONSerializationUtil", je.getMessage());
 			}
 			
 		} else if (field.getType().equals(Boolean.class)) {
@@ -68,9 +68,9 @@ public class JSONSerializationUtil {
 				Boolean value = json.getBoolean(field.getName());
 				field.set(evento, value);
 			} catch (IllegalAccessException iae) {
-				Log.e("HttpEventoDao", iae.getMessage());
+				Log.e("JSONSerializationUtil", iae.getMessage());
 			} catch (JSONException je) {
-				Log.e("HttpEventoDao", je.getMessage());
+				Log.e("JSONSerializationUtil", je.getMessage());
 			}
 			
 		} else if (field.getType().equals(Date.class)) {
@@ -81,11 +81,11 @@ public class JSONSerializationUtil {
 				Date value = format.parse(valueAsString);
 				field.set(evento, value);
 			} catch (IllegalAccessException iae) {
-				Log.e("HttpEventoDao", iae.getMessage());
+				Log.e("JSONSerializationUtil", iae.getMessage());
 			} catch (JSONException je) {
-				Log.e("HttpEventoDao", je.getMessage());
+				Log.e("JSONSerializationUtil", je.getMessage());
 			} catch (ParseException pe) {
-				Log.e("HttpEventoDao", pe.getMessage());
+				Log.e("JSONSerializationUtil", pe.getMessage());
 			}
 			
 		}

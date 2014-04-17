@@ -9,6 +9,8 @@ import android.os.AsyncTask;
 import es.gabrielferreiro.apps.ardelucusmmxiv.async.AsyncHandler;
 import es.gabrielferreiro.apps.ardelucusmmxiv.dao.LocalDao;
 import es.gabrielferreiro.apps.ardelucusmmxiv.dao.impl.DaoFactory;
+import es.gabrielferreiro.apps.ardelucusmmxiv.exception.DaoException;
+import es.gabrielferreiro.apps.ardelucusmmxiv.exception.ServiceException;
 import es.gabrielferreiro.apps.ardelucusmmxiv.model.Local;
 import es.gabrielferreiro.apps.ardelucusmmxiv.service.LocalService;
 
@@ -54,14 +56,21 @@ public class LocalServiceImpl implements LocalService {
 	private class FindTaskProxy extends AsyncTask<Integer, Void, Local> {
 		
 		private AsyncHandler handler;
+		private ServiceException exception;
 		
 		public FindTaskProxy(AsyncHandler handler) {
 			this.handler = handler;
+			this.exception = null;
 		}
 
 		@Override
 		protected Local doInBackground(Integer... params) {
-			return dao.find(params[0]);
+			try {
+				return dao.find(params[0]);
+			} catch (DaoException de) {
+				this.exception = new ServiceException(de.getMessage(), de);
+				return null;
+			}
 		}
 		
 		@Override
@@ -69,8 +78,8 @@ public class LocalServiceImpl implements LocalService {
 			super.onPostExecute(result);
 			if (result != null) {
 				handler.onSuccess(result);
-			} else {
-				handler.onError(result, new Exception("Error recuperando el objeto"));
+			} else if (exception != null) {
+				handler.onError(result, exception);
 			}
 		}
 		
@@ -79,14 +88,21 @@ public class LocalServiceImpl implements LocalService {
 	private class FindAllTaskProxy extends AsyncTask<Void, Void, List<Local>> {
 		
 		private AsyncHandler handler;
+		private ServiceException exception;
 		
 		public FindAllTaskProxy(AsyncHandler handler) {
 			this.handler = handler;
+			this.exception = null;
 		}
 
 		@Override
 		protected List<Local> doInBackground(Void... params) {
-			return dao.findAll();
+			try {
+				return dao.findAll();
+			} catch (DaoException de) {
+				this.exception = new ServiceException(de.getMessage(), de);
+				return null;
+			}
 		}
 		
 		@Override
@@ -94,8 +110,8 @@ public class LocalServiceImpl implements LocalService {
 			super.onPostExecute(result);
 			if (result != null) {
 				handler.onSuccess(result);
-			} else {
-				handler.onError(result, new Exception("Error recuperando todos los objetos"));
+			} else if (exception != null) {
+				handler.onError(result, exception);
 			}
 		}
 		
