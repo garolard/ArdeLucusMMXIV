@@ -4,6 +4,7 @@ import java.util.List;
 
 import es.gabrielferreiro.apps.ardelucusmmxiv.adapter.FeaturedListAdapter;
 import es.gabrielferreiro.apps.ardelucusmmxiv.async.AsyncHandler;
+import es.gabrielferreiro.apps.ardelucusmmxiv.fragment.FeaturedListFragment;
 import es.gabrielferreiro.apps.ardelucusmmxiv.model.Evento;
 import es.gabrielferreiro.apps.ardelucusmmxiv.service.EventoService;
 import es.gabrielferreiro.apps.ardelucusmmxiv.service.impl.ServiceFactory;
@@ -55,7 +56,6 @@ public class MainActivity extends Activity {
 			}
 			
 		});
-		Log.i(TAG, "Estoy despues de la llamada asíncrona");
 	}
 
 	@Override
@@ -63,24 +63,6 @@ public class MainActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
-	}
-
-	public static class FeaturedListFragment extends ListFragment {
-		
-		private List<Evento> allEventos;
-		
-		public void setAllEventos(List<Evento> eventos) {
-			allEventos = eventos;
-		}
-		
-		@Override
-		public void onActivityCreated(Bundle savedInstanceState) {
-			super.onActivityCreated(savedInstanceState);
-			
-			ListAdapter adapter = new FeaturedListAdapter(getActivity(), allEventos);
-			setListAdapter(adapter);
-		}
-		
 	}
 	
 }

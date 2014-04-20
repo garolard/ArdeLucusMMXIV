@@ -23,7 +23,7 @@ public class EventoServiceImpl implements EventoService {
 	private EventoDao dao;
 	
 	public EventoServiceImpl() {
-		dao = DaoFactory.getEventoHttpInstance();
+		dao = DaoFactory.getEventoMockInstance();
 	}
 	
 	/* (non-Javadoc)
