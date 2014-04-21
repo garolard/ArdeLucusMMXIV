@@ -32,7 +32,7 @@ public class EventoDetailFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		int eventoId = (Integer) getArguments().get("eventoId");
-		final View view = inflater.inflate(R.layout.featured_item_layout, null);
+		final View view = inflater.inflate(R.layout.featured_item_layout, container, false);
 		service.findAsync(eventoId, new AsyncHandler() {
 			
 			@Override
