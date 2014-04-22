@@ -1,33 +1,28 @@
 package es.gabrielferreiro.apps.ardelucusmmxiv;
 
-import java.util.List;
-
-import es.gabrielferreiro.apps.ardelucusmmxiv.adapter.FeaturedListAdapter;
-import es.gabrielferreiro.apps.ardelucusmmxiv.async.AsyncHandler;
 import es.gabrielferreiro.apps.ardelucusmmxiv.fragment.FeaturedListFragment;
-import es.gabrielferreiro.apps.ardelucusmmxiv.model.Evento;
-import es.gabrielferreiro.apps.ardelucusmmxiv.service.EventoService;
-import es.gabrielferreiro.apps.ardelucusmmxiv.service.impl.ServiceFactory;
 import android.os.Bundle;
 import android.app.Activity;
-import android.app.ListFragment;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.res.Configuration;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
 public class MainActivity extends Activity {
 
+	@SuppressWarnings("unused")
 	private static final String TAG = MainActivity.class.getSimpleName();
-	private EventoService mEventoService;
 	
-	private FeaturedListFragment listFragment;	
+	private Fragment initialFragment;
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
@@ -39,37 +34,10 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		
 		setupNavigationDrawer();
-		
-		mEventoService = ServiceFactory.getEventoService();
-		mEventoService.findAllAsync(new AsyncHandler() {
-			
-			// Aunque el método recibe un Object, se garantiza
-			// que el método findAllAsync devuelve un List<T> o null
-			@SuppressWarnings("unchecked")
-			@Override
-			public void onSuccess(Object result) {
-				
-				List<Evento> eventos = null;
-				try {
-					eventos = (List<Evento>) result;
-					listFragment = new FeaturedListFragment();
-					listFragment.setAllEventos(eventos);
-					getFragmentManager().beginTransaction()
-										.replace(R.id.container, listFragment)
-										.commit();
-				} catch (ClassCastException cce) {
-					Log.e(TAG, "Error de casting: " + cce.getMessage());
-				}
-				
-			}
-			
-			@Override
-			public void onError(Object result, Exception exception) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		});
+		initialFragment = new FeaturedListFragment();
+		getFragmentManager().beginTransaction()
+							.add(R.id.container, initialFragment)
+							.commit();
 	}
 	
 	private void setupNavigationDrawer() {
@@ -79,6 +47,7 @@ public class MainActivity extends Activity {
 		
 		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 		mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mDrawerItems));
+		mDrawerList.setOnItemClickListener(new OnNavigationDrawerItemClicked());
 		
 		getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
@@ -100,6 +69,47 @@ public class MainActivity extends Activity {
         	
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+	}
+	
+	private class OnNavigationDrawerItemClicked implements OnItemClickListener {
+
+		@Override
+		public void onItemClick(AdapterView<?> container, View view, int position, long itemId) {
+			selectSection(position);
+			mDrawerLayout.closeDrawer(mDrawerList);
+		}
+		
+	}
+	
+	private void selectSection(int position) {
+		
+		Fragment fragment = null;
+		
+		switch (position) {
+		
+		case 0:
+			fragment = new FeaturedListFragment();
+			break;
+			
+		default:
+			fragment = new FeaturedListFragment();
+
+		}
+		
+		clearBackStack();
+		
+		getFragmentManager().beginTransaction()
+							.remove(initialFragment)
+							.replace(R.id.container, fragment)
+							.commit();
+		
+	}
+	
+	private void clearBackStack() {
+		FragmentManager fragmentManager = getFragmentManager();
+		for (int i = 0; i < fragmentManager.getBackStackEntryCount(); i++) {
+			fragmentManager.popBackStack();
+		}
 	}
 	
 	@Override

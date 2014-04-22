@@ -8,16 +8,16 @@ import java.util.List;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 import es.gabrielferreiro.apps.ardelucusmmxiv.R;
 import es.gabrielferreiro.apps.ardelucusmmxiv.adapter.FeaturedListAdapter;
+import es.gabrielferreiro.apps.ardelucusmmxiv.async.AsyncHandler;
 import es.gabrielferreiro.apps.ardelucusmmxiv.model.Evento;
+import es.gabrielferreiro.apps.ardelucusmmxiv.service.EventoService;
+import es.gabrielferreiro.apps.ardelucusmmxiv.service.impl.ServiceFactory;
 
 /**
  * @author Gabriel
@@ -25,10 +25,11 @@ import es.gabrielferreiro.apps.ardelucusmmxiv.model.Evento;
  */
 public class FeaturedListFragment extends ListFragment implements OnItemClickListener {
 	
+	private EventoService eventoService;
 	private List<Evento> allEventos;
 	
-	public void setAllEventos(List<Evento> eventos) {
-		allEventos = eventos;
+	public FeaturedListFragment() {
+		eventoService = ServiceFactory.getEventoService();
 	}
 	
 	@Override
@@ -41,8 +42,21 @@ public class FeaturedListFragment extends ListFragment implements OnItemClickLis
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		
-		ListAdapter adapter = new FeaturedListAdapter(getActivity(), allEventos);
-		setListAdapter(adapter);
+		eventoService.findAllAsync(new AsyncHandler() {
+			
+			@SuppressWarnings("unchecked")
+			@Override
+			public void onSuccess(Object result) {
+				allEventos = (List<Evento>) result;
+				ListAdapter adapter = new FeaturedListAdapter(getActivity(), allEventos);
+				setListAdapter(adapter);
+			}
+			
+			@Override
+			public void onError(Object result, Exception exception) {}
+			
+		});
+		
 	}
 
 	@Override
@@ -58,7 +72,7 @@ public class FeaturedListFragment extends ListFragment implements OnItemClickLis
 		
 		getFragmentManager().beginTransaction()
 							.replace(R.id.container, detailFragment)
-							.addToBackStack("")
+							.addToBackStack(getTag())
 							.commit();
 		
 	}

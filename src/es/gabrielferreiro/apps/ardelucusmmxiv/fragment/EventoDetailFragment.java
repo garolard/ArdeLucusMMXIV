@@ -8,7 +8,6 @@ import es.gabrielferreiro.apps.ardelucusmmxiv.async.AsyncHandler;
 import es.gabrielferreiro.apps.ardelucusmmxiv.model.Evento;
 import es.gabrielferreiro.apps.ardelucusmmxiv.service.EventoService;
 import es.gabrielferreiro.apps.ardelucusmmxiv.service.impl.ServiceFactory;
-import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -51,10 +50,7 @@ public class EventoDetailFragment extends Fragment {
 			}
 			
 			@Override
-			public void onError(Object result, Exception exception) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void onError(Object result, Exception exception) {}
 		});
 		return view;
 	}
