@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.gabrielferreiro.apps.ardelucusmmxiv.dao.LocalDao;
+import es.gabrielferreiro.apps.ardelucusmmxiv.exception.DaoException;
 import es.gabrielferreiro.apps.ardelucusmmxiv.model.Local;
 
 /**
@@ -28,18 +29,33 @@ public class MockLocalDao implements LocalDao {
 		local1.setId(1);
 		local1.setNombre("Cervecería Baco");
 		local1.setDescripcion("Cervecería con tapas y camareras buenísimas");
+		local1.setDireccion("Aguas ferreas");
 		local1.setCategoria(Local.RESTAURACION);
 		
 		Local local2 = new Local();
 		local2.setId(2);
 		local2.setNombre("Pub Onda Media");
 		local2.setDescripcion("Pub en el pleno centro de Lugo");
+		local2.setDireccion("Calle Catedral");
 		local2.setCategoria(Local.NOCTURNO);
 		
 		data.add(local1);
 		data.add(local2);
 		
 		return data;
+	}
+	
+	@Override
+	public List<Local> findByCategory(String categoryId) throws DaoException {
+		List<Local> targetLocales = new ArrayList<Local>();
+		
+		for (Local local : mockLocals) {
+			if (local.getCategoria().equals(categoryId)) {
+				targetLocales.add(local);
+			}
+		}
+		
+		return targetLocales;
 	}
 	
 	@Override

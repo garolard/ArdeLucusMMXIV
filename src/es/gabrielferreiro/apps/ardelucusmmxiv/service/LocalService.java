@@ -3,6 +3,7 @@
  */
 package es.gabrielferreiro.apps.ardelucusmmxiv.service;
 
+import es.gabrielferreiro.apps.ardelucusmmxiv.async.AsyncHandler;
 import es.gabrielferreiro.apps.ardelucusmmxiv.model.Local;
 
 /**
@@ -11,4 +12,6 @@ import es.gabrielferreiro.apps.ardelucusmmxiv.model.Local;
  */
 public interface LocalService extends Service<Local, Integer> {
 
+	void findByCategoryAsync(String categoryId, AsyncHandler handler);
+	
 }

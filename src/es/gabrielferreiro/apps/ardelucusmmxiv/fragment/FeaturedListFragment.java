@@ -23,7 +23,8 @@ import es.gabrielferreiro.apps.ardelucusmmxiv.service.impl.ServiceFactory;
  * @author Gabriel
  *
  */
-public class FeaturedListFragment extends ListFragment implements OnItemClickListener {
+public class FeaturedListFragment extends ListFragment implements 
+		OnItemClickListener {
 	
 	private EventoService eventoService;
 	private List<Evento> allEventos;

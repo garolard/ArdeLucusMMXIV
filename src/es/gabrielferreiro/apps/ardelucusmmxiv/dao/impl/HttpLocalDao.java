@@ -53,6 +53,12 @@ public class HttpLocalDao implements LocalDao {
 		return targetLocal;
 	}
 
+	@Override
+	public List<Local> findByCategory(String categoryId) throws DaoException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	/* (non-Javadoc)
 	 * @see es.gabrielferreiro.apps.ardelucusmmxiv.dao.Dao#findAll()
 	 */

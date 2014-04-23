@@ -1,6 +1,7 @@
 package es.gabrielferreiro.apps.ardelucusmmxiv;
 
 import es.gabrielferreiro.apps.ardelucusmmxiv.fragment.FeaturedListFragment;
+import es.gabrielferreiro.apps.ardelucusmmxiv.fragment.NightListFragment;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.Fragment;
@@ -89,6 +90,10 @@ public class MainActivity extends Activity {
 		
 		case 0:
 			fragment = new FeaturedListFragment();
+			break;
+			
+		case 5:
+			fragment = new NightListFragment();
 			break;
 			
 		default:

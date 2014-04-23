@@ -23,7 +23,13 @@ public class LocalServiceImpl implements LocalService {
 	private LocalDao dao;
 	
 	public LocalServiceImpl() {
-		dao = DaoFactory.getLocalHttpInstance();
+		dao = DaoFactory.getLocalMockInstance();
+	}
+	
+	@Override
+	public void findByCategoryAsync(String categoryId, AsyncHandler handler) {
+		FindByCategoryTaskProxy proxy = new FindByCategoryTaskProxy(handler);
+		proxy.execute(categoryId);
 	}
 	
 	/* (non-Javadoc)
@@ -51,6 +57,38 @@ public class LocalServiceImpl implements LocalService {
 	public void saveAsync(Local obj, AsyncHandler handler) {
 		// TODO Auto-generated method stub
 
+	}
+	
+	private class FindByCategoryTaskProxy extends AsyncTask<String, Void, List<Local>> {
+
+		private AsyncHandler handler;
+		private ServiceException exception;
+		
+		public FindByCategoryTaskProxy(AsyncHandler handler) {
+			this.handler = handler;
+			this.exception = null;
+		}
+		
+		@Override
+		protected List<Local> doInBackground(String... params) {
+			try {
+				return dao.findByCategory(params[0]);
+			} catch (DaoException de) {
+				this.exception = new ServiceException(de.getMessage(), de);
+				return null;
+			}
+		}
+		
+		@Override
+		protected void onPostExecute(List<Local> result) {
+			super.onPostExecute(result);
+			if (result != null) {
+				handler.onSuccess(result);
+			} else {
+				handler.onError(result, exception);
+			}
+		}
+		
 	}
 	
 	private class FindTaskProxy extends AsyncTask<Integer, Void, Local> {
