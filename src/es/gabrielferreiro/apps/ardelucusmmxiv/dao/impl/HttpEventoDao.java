@@ -25,6 +25,11 @@ public class HttpEventoDao implements EventoDao {
 
 	private static final String EVENTOS_URL = "http://10.0.2.2/ardeapi/eventos";
 	
+	@Override
+	public List<Evento> findByCategory(String category) {
+		return null;
+	}
+	
 	/* (non-Javadoc)
 	 * @see es.gabrielferreiro.apps.ardelucusmmxiv.dao.Dao#find(java.lang.Object)
 	 */

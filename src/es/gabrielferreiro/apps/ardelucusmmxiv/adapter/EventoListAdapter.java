@@ -6,6 +6,7 @@ package es.gabrielferreiro.apps.ardelucusmmxiv.adapter;
 import java.util.List;
 
 import es.gabrielferreiro.apps.ardelucusmmxiv.R;
+import es.gabrielferreiro.apps.ardelucusmmxiv.model.Evento;
 import es.gabrielferreiro.apps.ardelucusmmxiv.model.Local;
 
 import android.content.Context;
@@ -19,16 +20,16 @@ import android.widget.TextView;
  * @author Gabriel
  *
  */
-public class NightListAdapter extends BaseAdapter {
+public class EventoListAdapter extends BaseAdapter {
 
-	private List<Local> locals;
+	private List<Evento> eventos;
 	private LayoutInflater inflater;
 	private Context context;
 	
-	public NightListAdapter(Context context, List<Local> locals) {
-		this.locals = locals;
+	public EventoListAdapter(Context context, List<Evento> eventos) {
+		this.eventos = eventos;
 		this.context = context;
-		this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		this.inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 	
 	/* (non-Javadoc)
@@ -36,15 +37,15 @@ public class NightListAdapter extends BaseAdapter {
 	 */
 	@Override
 	public int getCount() {
-		return locals.size();
+		return eventos.size();
 	}
 
 	/* (non-Javadoc)
 	 * @see android.widget.Adapter#getItem(int)
 	 */
 	@Override
-	public Local getItem(int position) {
-		return locals.get(position);
+	public Evento getItem(int position) {
+		return eventos.get(position);
 	}
 
 	/* (non-Javadoc)
@@ -63,17 +64,17 @@ public class NightListAdapter extends BaseAdapter {
 		
 		View vi = view;
 		if (vi == null) {
-			vi = inflater.inflate(R.layout.night_list_item, null);
+			vi = inflater.inflate(R.layout.evento_list_item, null);
 		}
 		
-		TextView nombre = (TextView) vi.findViewById(R.id.nightLocalName);
-		TextView descripcion = (TextView) vi.findViewById(R.id.nightLocalDescription);
-		TextView direccion = (TextView) vi.findViewById(R.id.nightLocalAddress);
-		Local actualItem = locals.get(position);
+		TextView nombre = (TextView) vi.findViewById(R.id.tituloEvento);
+		TextView descripcion = (TextView) vi.findViewById(R.id.descripcionEvento);
+		TextView direccion = (TextView) vi.findViewById(R.id.fechaEvento);
+		Evento actualItem = eventos.get(position);
 		
-		nombre.setText(actualItem.getNombre());
+		nombre.setText(actualItem.getTitulo());
 		descripcion.setText(actualItem.getDescripcion());
-		direccion.setText(actualItem.getDireccion());
+		direccion.setText(actualItem.getTiempoRealizacion().toString());
 		
 		return vi;
 		

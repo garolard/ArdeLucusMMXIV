@@ -6,7 +6,7 @@ package es.gabrielferreiro.apps.ardelucusmmxiv.fragment;
 import java.util.List;
 
 import es.gabrielferreiro.apps.ardelucusmmxiv.R;
-import es.gabrielferreiro.apps.ardelucusmmxiv.adapter.NightListAdapter;
+import es.gabrielferreiro.apps.ardelucusmmxiv.adapter.LocalListAdapter;
 import es.gabrielferreiro.apps.ardelucusmmxiv.async.AsyncHandler;
 import es.gabrielferreiro.apps.ardelucusmmxiv.model.Local;
 import es.gabrielferreiro.apps.ardelucusmmxiv.service.LocalService;
@@ -24,32 +24,33 @@ import android.widget.ListAdapter;
  * @author Gabriel
  *
  */
-public class NightListFragment extends ListFragment implements
+public class LocalListFragment extends ListFragment implements
 		OnItemClickListener {
 
-	private LocalService localService;
-	private List<Local> nightLocales;
+	public static final String CATEGORY_KEY = "localCategory";
 	
-	public NightListFragment() {
+	private String localesCategory;
+	private LocalService localService;
+	private List<Local> locales;
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 		this.localService = ServiceFactory.getLocalService();
+		localesCategory = getArguments().getString(CATEGORY_KEY);
 	}
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		getListView().setOnItemClickListener(this);
-	}
-	
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-				
-		localService.findByCategoryAsync(Local.NOCTURNO, new AsyncHandler() {
+		
+		localService.findByCategoryAsync(localesCategory, new AsyncHandler() {
 			
 			@Override
 			public void onSuccess(Object result) {
-				nightLocales = (List<Local>) result;
-				ListAdapter adapter = new NightListAdapter(getActivity(), nightLocales);
+				locales = (List<Local>) result;
+				ListAdapter adapter = new LocalListAdapter(getActivity(), locales);
 				setListAdapter(adapter);
 			}
 			
@@ -59,12 +60,13 @@ public class NightListFragment extends ListFragment implements
 				
 			}
 		});
+		
 	}
 	
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		
-		Local local = nightLocales.get(position);
+		Local local = locales.get(position);
 		
 		Bundle arguments = new Bundle();
 		arguments.putInt("localId", local.getId());

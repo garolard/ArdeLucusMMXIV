@@ -31,16 +31,16 @@ public class LocalDetailFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		int localId = getArguments().getInt("localId");
-		final View view = inflater.inflate(R.layout.night_list_item, container, false);
+		final View view = inflater.inflate(R.layout.local_list_item, container, false);
 		service.findAsync(localId, new AsyncHandler() {
 			
 			@Override
 			public void onSuccess(Object result) {
 				
 				Local local = (Local) result;
-				TextView nombre = (TextView) view.findViewById(R.id.nightLocalName);
-				TextView descripcion = (TextView) view.findViewById(R.id.nightLocalDescription);
-				TextView direccion = (TextView) view.findViewById(R.id.nightLocalAddress);
+				TextView nombre = (TextView) view.findViewById(R.id.localName);
+				TextView descripcion = (TextView) view.findViewById(R.id.localDescription);
+				TextView direccion = (TextView) view.findViewById(R.id.localAddress);
 				nombre.setText(local.getNombre());
 				descripcion.setText(local.getDescripcion());
 				direccion.setText(local.getDireccion());

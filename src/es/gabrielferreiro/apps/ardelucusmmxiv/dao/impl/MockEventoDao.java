@@ -29,6 +29,7 @@ public class MockEventoDao implements EventoDao {
 		evento1.setTitulo("Circo Romano");
 		evento1.setDescripcion("Luchadores de todas partes del imperio se dan cita para luchar hasta la muerte");
 		evento1.setTiempoRealizacion(new Date());
+		evento1.setCategoria(Evento.ROMANO);
 		evento1.setPrecio("3.0");
 		
 		Evento evento2 = new Evento();
@@ -36,12 +37,28 @@ public class MockEventoDao implements EventoDao {
 		evento2.setTitulo("Desfile Romano");
 		evento2.setDescripcion("Las legiones pasean por el centro de la ciudad.");
 		evento2.setTiempoRealizacion(new Date());
+		evento2.setCategoria(Evento.ROMANO);
 		evento2.setPrecio("0.0");
 		
 		data.add(evento1);
 		data.add(evento2);
 		
 		return data;
+	}
+	
+	@Override
+	public List<Evento> findByCategory(String category) {
+		
+		List<Evento> eventos = new ArrayList<Evento>();
+		
+		for (Evento evento : mockEvents) {
+			if (evento.getCategoria().equals(category)) {
+				eventos.add(evento);
+			}
+		}
+		
+		return eventos;
+		
 	}
 	
 	@Override

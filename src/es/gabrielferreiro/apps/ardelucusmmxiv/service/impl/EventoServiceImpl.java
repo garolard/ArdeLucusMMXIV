@@ -12,6 +12,7 @@ import es.gabrielferreiro.apps.ardelucusmmxiv.dao.impl.DaoFactory;
 import es.gabrielferreiro.apps.ardelucusmmxiv.exception.DaoException;
 import es.gabrielferreiro.apps.ardelucusmmxiv.exception.ServiceException;
 import es.gabrielferreiro.apps.ardelucusmmxiv.model.Evento;
+import es.gabrielferreiro.apps.ardelucusmmxiv.model.Local;
 import es.gabrielferreiro.apps.ardelucusmmxiv.service.EventoService;
 
 /**
@@ -24,6 +25,12 @@ public class EventoServiceImpl implements EventoService {
 	
 	public EventoServiceImpl() {
 		dao = DaoFactory.getEventoMockInstance();
+	}
+	
+	@Override
+	public void findByCategoryAsync(String categoryId, AsyncHandler handler) {
+		FindByCategoryTaskProxy proxy = new FindByCategoryTaskProxy(handler);
+		proxy.execute(categoryId);
 	}
 	
 	/* (non-Javadoc)
@@ -51,6 +58,38 @@ public class EventoServiceImpl implements EventoService {
 	public void saveAsync(Evento obj, AsyncHandler handler) {
 		SaveTaskProxy proxy = new SaveTaskProxy(handler);
 		proxy.execute(obj);
+	}
+	
+	private class FindByCategoryTaskProxy extends AsyncTask<String, Void, List<Evento>> {
+
+		private AsyncHandler handler;
+		private ServiceException exception;
+		
+		public FindByCategoryTaskProxy(AsyncHandler handler) {
+			this.handler = handler;
+			this.exception = null;
+		}
+		
+		@Override
+		protected List<Evento> doInBackground(String... params) {
+			try {
+				return dao.findByCategory(params[0]);
+			} catch (DaoException de) {
+				this.exception = new ServiceException(de.getMessage(), de);
+				return null;
+			}
+		}
+		
+		@Override
+		protected void onPostExecute(List<Evento> result) {
+			super.onPostExecute(result);
+			if (result != null) {
+				handler.onSuccess(result);
+			} else {
+				handler.onError(result, exception);
+			}
+		}
+		
 	}
 	
 	private class FindTaskProxy extends AsyncTask<Integer, Void, Evento> {

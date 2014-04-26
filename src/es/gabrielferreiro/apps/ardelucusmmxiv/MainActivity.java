@@ -1,7 +1,10 @@
 package es.gabrielferreiro.apps.ardelucusmmxiv;
 
+import es.gabrielferreiro.apps.ardelucusmmxiv.fragment.EventoListFragment;
 import es.gabrielferreiro.apps.ardelucusmmxiv.fragment.FeaturedListFragment;
-import es.gabrielferreiro.apps.ardelucusmmxiv.fragment.NightListFragment;
+import es.gabrielferreiro.apps.ardelucusmmxiv.fragment.LocalListFragment;
+import es.gabrielferreiro.apps.ardelucusmmxiv.model.Evento;
+import es.gabrielferreiro.apps.ardelucusmmxiv.model.Local;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.Fragment;
@@ -85,6 +88,7 @@ public class MainActivity extends Activity {
 	private void selectSection(int position) {
 		
 		Fragment fragment = null;
+		Bundle fragmentArguments = null;
 		
 		switch (position) {
 		
@@ -92,8 +96,39 @@ public class MainActivity extends Activity {
 			fragment = new FeaturedListFragment();
 			break;
 			
+		case 1:
+			fragment = new EventoListFragment();
+			fragmentArguments = new Bundle(1);
+			fragmentArguments.putString(EventoListFragment.CATEGORY_KEY, Evento.ROMANO);
+			fragment.setArguments(fragmentArguments);
+			break;
+			
+		case 2:
+			fragment = new EventoListFragment();
+			fragmentArguments = new Bundle(1);
+			fragmentArguments.putString(EventoListFragment.CATEGORY_KEY, Evento.CASTREXO);
+			fragment.setArguments(fragmentArguments);
+			break;
+			
+		case 3:
+			fragment = new EventoListFragment();
+			fragmentArguments = new Bundle(1);
+			fragmentArguments.putString(EventoListFragment.CATEGORY_KEY, Evento.INFANTIL);
+			fragment.setArguments(fragmentArguments);
+			break;
+			
+		case 4:
+			fragment = new LocalListFragment();
+			fragmentArguments = new Bundle(1);
+			fragmentArguments.putString(LocalListFragment.CATEGORY_KEY, Local.RESTAURACION);
+			fragment.setArguments(fragmentArguments);
+			break;
+			
 		case 5:
-			fragment = new NightListFragment();
+			fragment = new LocalListFragment();
+			fragmentArguments = new Bundle(1);
+			fragmentArguments.putString(LocalListFragment.CATEGORY_KEY, Local.NOCTURNO);
+			fragment.setArguments(fragmentArguments);
 			break;
 			
 		default:

@@ -13,6 +13,11 @@ import java.util.Date;
 public class Evento implements Serializable {
 
 	private static final long serialVersionUID = 9189979138757118477L;
+	
+	public static final String ROMANO = "romano";
+	public static final String CASTREXO = "castrexo";
+	public static final String INFANTIL = "infantil";
+	public static final String NOCTURNO = "nocturno";
 
 	private Integer _id;
 	private String titulo;
@@ -21,6 +26,7 @@ public class Evento implements Serializable {
 	private Double longitud;
 	private Date tiempo_realizacion;
 	private String precio;
+	private String categoria;
 	
 	public Integer getId() {
 		return _id;
@@ -63,6 +69,12 @@ public class Evento implements Serializable {
 	}
 	public void setPrecio(String precio) {
 		this.precio = precio;
+	}
+	public String getCategoria() {
+		return categoria;
+	}
+	public void setCategoria(String categoria) {
+		this.categoria = categoria;
 	}
 	
 }
