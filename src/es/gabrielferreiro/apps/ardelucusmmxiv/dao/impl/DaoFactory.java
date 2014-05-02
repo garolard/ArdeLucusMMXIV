@@ -19,7 +19,7 @@ public class DaoFactory {
 	
 	public static EventoDao getEventoMockInstance() {
 		if (eventoMockDao == null) {
-			eventoMockDao = new MockEventoDao();
+			eventoMockDao = new EventoDaoMockImpl();
 		}
 		
 		return eventoMockDao;
@@ -27,7 +27,7 @@ public class DaoFactory {
 	
 	public static EventoDao getEventoHttpInstance() {
 		if (eventoHttpDao == null) {
-			eventoHttpDao = new HttpEventoDao();
+			eventoHttpDao = new EventoDaoHttpImpl();
 		}
 		
 		return eventoHttpDao;
@@ -35,7 +35,7 @@ public class DaoFactory {
 	
 	public static LocalDao getLocalMockInstance() {
 		if (localMockDao == null) {
-			localMockDao = new MockLocalDao();
+			localMockDao = new LocalDaoMockImpl();
 		}
 		
 		return localMockDao;
@@ -43,7 +43,7 @@ public class DaoFactory {
 	
 	public static LocalDao getLocalHttpInstance() {
 		if (localHttpDao == null) {
-			localHttpDao = new HttpLocalDao();
+			localHttpDao = new LocalDaoHttpImpl();
 		}
 		
 		return localHttpDao;

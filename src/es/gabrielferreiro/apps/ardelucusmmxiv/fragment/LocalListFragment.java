@@ -5,6 +5,7 @@ package es.gabrielferreiro.apps.ardelucusmmxiv.fragment;
 
 import java.util.List;
 
+import es.gabrielferreiro.apps.ardelucusmmxiv.BaseActivity;
 import es.gabrielferreiro.apps.ardelucusmmxiv.R;
 import es.gabrielferreiro.apps.ardelucusmmxiv.adapter.LocalListAdapter;
 import es.gabrielferreiro.apps.ardelucusmmxiv.async.AsyncHandler;
@@ -13,6 +14,7 @@ import es.gabrielferreiro.apps.ardelucusmmxiv.service.LocalService;
 import es.gabrielferreiro.apps.ardelucusmmxiv.service.impl.ServiceFactory;
 import android.app.Activity;
 import android.app.ListFragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -37,6 +39,8 @@ public class LocalListFragment extends ListFragment implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.localService = ServiceFactory.getLocalService();
+		BaseActivity activity = (BaseActivity) getActivity();
+		this.localService.setConnectivityStatus(activity.getConnectivityStatus());
 		localesCategory = getArguments().getString(CATEGORY_KEY);
 	}
 	
@@ -44,13 +48,14 @@ public class LocalListFragment extends ListFragment implements
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		getListView().setOnItemClickListener(this);
+		final Context context = getActivity();
 		
 		localService.findByCategoryAsync(localesCategory, new AsyncHandler() {
 			
 			@Override
 			public void onSuccess(Object result) {
 				locales = (List<Local>) result;
-				ListAdapter adapter = new LocalListAdapter(getActivity(), locales);
+				ListAdapter adapter = new LocalListAdapter(context, locales);
 				setListAdapter(adapter);
 			}
 			

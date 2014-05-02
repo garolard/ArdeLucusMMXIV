@@ -21,7 +21,7 @@ import es.gabrielferreiro.apps.ardelucusmmxiv.model.Evento;
  * @author Gabriel
  *
  */
-public class HttpEventoDao implements EventoDao {
+public class EventoDaoHttpImpl implements EventoDao {
 
 	private static final String EVENTOS_URL = "http://10.0.2.2/ardeapi/eventos";
 	

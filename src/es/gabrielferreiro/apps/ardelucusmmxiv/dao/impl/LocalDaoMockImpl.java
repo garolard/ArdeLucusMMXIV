@@ -14,11 +14,11 @@ import es.gabrielferreiro.apps.ardelucusmmxiv.model.Local;
  * @author Gabriel
  *
  */
-public class MockLocalDao implements LocalDao {
+public class LocalDaoMockImpl implements LocalDao {
 
 	private List<Local> mockLocals;
 	
-	public MockLocalDao() {
+	public LocalDaoMockImpl() {
 		mockLocals = cargarDatosPrueba();
 	}
 	

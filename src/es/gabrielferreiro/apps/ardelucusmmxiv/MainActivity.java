@@ -5,8 +5,8 @@ import es.gabrielferreiro.apps.ardelucusmmxiv.fragment.FeaturedListFragment;
 import es.gabrielferreiro.apps.ardelucusmmxiv.fragment.LocalListFragment;
 import es.gabrielferreiro.apps.ardelucusmmxiv.model.Evento;
 import es.gabrielferreiro.apps.ardelucusmmxiv.model.Local;
+import es.gabrielferreiro.apps.ardelucusmmxiv.service.EventoService;
 import android.os.Bundle;
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.res.Configuration;
@@ -21,7 +21,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends BaseActivity {
 
 	@SuppressWarnings("unused")
 	private static final String TAG = MainActivity.class.getSimpleName();
@@ -120,11 +120,18 @@ public class MainActivity extends Activity {
 		case 4:
 			fragment = new LocalListFragment();
 			fragmentArguments = new Bundle(1);
-			fragmentArguments.putString(LocalListFragment.CATEGORY_KEY, Local.RESTAURACION);
+			fragmentArguments.putString(LocalListFragment.CATEGORY_KEY, Local.TIENDA);
 			fragment.setArguments(fragmentArguments);
 			break;
 			
 		case 5:
+			fragment = new LocalListFragment();
+			fragmentArguments = new Bundle(1);
+			fragmentArguments.putString(LocalListFragment.CATEGORY_KEY, Local.RESTAURACION);
+			fragment.setArguments(fragmentArguments);
+			break;
+			
+		case 6:
 			fragment = new LocalListFragment();
 			fragmentArguments = new Bundle(1);
 			fragmentArguments.putString(LocalListFragment.CATEGORY_KEY, Local.NOCTURNO);

@@ -20,10 +20,16 @@ import es.gabrielferreiro.apps.ardelucusmmxiv.service.LocalService;
  */
 public class LocalServiceImpl implements LocalService {
 
+	private int connectivityStatus;
 	private LocalDao dao;
 	
 	public LocalServiceImpl() {
 		dao = DaoFactory.getLocalMockInstance();
+	}
+	
+	@Override
+	public void setConnectivityStatus(int status) {
+		this.connectivityStatus = status;
 	}
 	
 	@Override

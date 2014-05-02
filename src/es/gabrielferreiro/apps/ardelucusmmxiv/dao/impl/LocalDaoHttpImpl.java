@@ -21,7 +21,7 @@ import es.gabrielferreiro.apps.ardelucusmmxiv.model.Local;
  * @author Gabriel
  *
  */
-public class HttpLocalDao implements LocalDao {
+public class LocalDaoHttpImpl implements LocalDao {
 
 	private static final String LOCALES_URL = "http://10.0.2.2/ardeapi/locales";
 	

@@ -7,11 +7,13 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.ListFragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.AdapterView.OnItemClickListener;
+import es.gabrielferreiro.apps.ardelucusmmxiv.BaseActivity;
 import es.gabrielferreiro.apps.ardelucusmmxiv.R;
 import es.gabrielferreiro.apps.ardelucusmmxiv.adapter.EventoListAdapter;
 import es.gabrielferreiro.apps.ardelucusmmxiv.adapter.LocalListAdapter;
@@ -38,6 +40,8 @@ public class EventoListFragment extends ListFragment implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.eventoService = ServiceFactory.getEventoService();
+		BaseActivity activity = (BaseActivity) getActivity();
+		this.eventoService.setConnectivityStatus(activity.getConnectivityStatus());
 		eventosCategory = getArguments().getString(CATEGORY_KEY);
 	}
 	
@@ -45,13 +49,14 @@ public class EventoListFragment extends ListFragment implements
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		getListView().setOnItemClickListener(this);
+		final Context context = getActivity();
 		
 		eventoService.findByCategoryAsync(eventosCategory, new AsyncHandler() {
 			
 			@Override
 			public void onSuccess(Object result) {
 				eventos = (List<Evento>) result;
-				ListAdapter adapter = new EventoListAdapter(getActivity(), eventos);
+				ListAdapter adapter = new EventoListAdapter(context, eventos);
 				setListAdapter(adapter);
 			}
 			

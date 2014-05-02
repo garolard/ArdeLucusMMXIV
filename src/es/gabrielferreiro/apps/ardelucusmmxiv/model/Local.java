@@ -6,28 +6,52 @@ package es.gabrielferreiro.apps.ardelucusmmxiv.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import es.gabrielferreiro.apps.ardelucusmmxiv.db.annotation.Column;
+import es.gabrielferreiro.apps.ardelucusmmxiv.db.annotation.Table;
+
 /**
  * @author Gabriel
  *
  */
+@Table
 public class Local implements Serializable {
 	
 	public static final String RESTAURACION = "restauracion";
 	public static final String NOCTURNO = "nocturno";
 	public static final String INFANTIL = "infantil";
-	public static final String AMBIENTACION = "ambientacion";
+	public static final String AMBIENTACION = "ambientacion"; // Cambiar por TIENDA?
+	public static final String TIENDA = "tienda";
 
 	private static final long serialVersionUID = -5746361331079117481L;
 
+	@Column(isPrimaryKey = true, isAutoincrement = true)
 	private Integer _id;
+	
+	@Column
 	private String nombre;
+	
+	@Column
 	private String descripcion;
+	
+	@Column
 	private String imagen;
+	
+	@Column(type = "REAL")
 	private Float latitud;
+	
+	@Column(type = "REAL")
 	private Float longitud;
+	
+	@Column
 	private String direccion;
+	
+	@Column
 	private String categoria;
+	
+	@Column(type = "DATETIME")
 	private Date horaApertura;
+	
+	@Column(type = "DATETIME")
 	private Date horaCierre;
 	
 	public Integer getId() {

@@ -14,11 +14,11 @@ import es.gabrielferreiro.apps.ardelucusmmxiv.model.Evento;
  * @author Gabriel
  *
  */
-public class MockEventoDao implements EventoDao {
+public class EventoDaoMockImpl implements EventoDao {
 
 	private List<Evento> mockEvents;
 	
-	public MockEventoDao() {
+	public EventoDaoMockImpl() {
 		this.mockEvents = cargarDatosPrueba();
 	}
 	

@@ -21,10 +21,16 @@ import es.gabrielferreiro.apps.ardelucusmmxiv.service.EventoService;
  */
 public class EventoServiceImpl implements EventoService {
 
+	private int connectivityStatus = 0;
 	private EventoDao dao;
 	
 	public EventoServiceImpl() {
 		dao = DaoFactory.getEventoMockInstance();
+	}
+	
+	@Override
+	public void setConnectivityStatus(int status) {
+		this.connectivityStatus = status;
 	}
 	
 	@Override
