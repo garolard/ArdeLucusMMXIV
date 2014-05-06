@@ -4,6 +4,10 @@
 package es.gabrielferreiro.apps.ardelucusmmxiv.db.base;
 
 
+import es.gabrielferreiro.apps.ardelucusmmxiv.dao.impl.EventoDaoSQLiteImpl;
+import es.gabrielferreiro.apps.ardelucusmmxiv.dao.impl.LocalDaoSQLiteImpl;
+import es.gabrielferreiro.apps.ardelucusmmxiv.model.Evento;
+import es.gabrielferreiro.apps.ardelucusmmxiv.model.Local;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -28,8 +32,8 @@ public class DatabaseConnection {
 
 		@Override
 		public void onCreate(final SQLiteDatabase db) {
-			// TODO Auto-generated method stub
-			
+			new EventoDaoSQLiteImpl(Evento.class).createTable();
+			new LocalDaoSQLiteImpl(Local.class).createTable();
 		}
 
 		@Override

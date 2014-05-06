@@ -20,10 +20,8 @@ import es.gabrielferreiro.apps.ardelucusmmxiv.model.Evento;
  */
 public class EventoDaoSQLiteImpl extends BaseDaoSQLiteImpl<Evento, Integer> implements EventoDao {
 
-	public EventoDaoSQLiteImpl(Context context, DatabaseConnection conn) {
-		this.tClass = Evento.class;
-		this.mContext = context;
-		this.mDB = conn.getDatabase();
+	public EventoDaoSQLiteImpl(Class<Evento> clazz) {
+		super(clazz);
 	}
 	
 	/* (non-Javadoc)

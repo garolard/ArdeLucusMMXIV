@@ -12,6 +12,7 @@ import es.gabrielferreiro.apps.ardelucusmmxiv.model.Evento;
  */
 public interface EventoService extends Service<Evento, Integer> {
 
+	void updateLocalDatabaseIfNeeded();
 	void findByCategoryAsync(String categoryId, AsyncHandler handler);
 	
 }

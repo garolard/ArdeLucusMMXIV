@@ -22,15 +22,20 @@ import es.gabrielferreiro.apps.ardelucusmmxiv.service.EventoService;
 public class EventoServiceImpl implements EventoService {
 
 	private int connectivityStatus = 0;
-	private EventoDao dao;
+	private EventoDao httpDao;
+	private EventoDao sqliteDao;
 	
 	public EventoServiceImpl() {
-		dao = DaoFactory.getEventoMockInstance();
+		httpDao = DaoFactory.getEventoMockInstance();
 	}
 	
 	@Override
 	public void setConnectivityStatus(int status) {
 		this.connectivityStatus = status;
+	}
+	
+	@Override
+	public void updateLocalDatabaseIfNeeded() {
 	}
 	
 	@Override
@@ -79,7 +84,7 @@ public class EventoServiceImpl implements EventoService {
 		@Override
 		protected List<Evento> doInBackground(String... params) {
 			try {
-				return dao.findByCategory(params[0]);
+				return httpDao.findByCategory(params[0]);
 			} catch (DaoException de) {
 				this.exception = new ServiceException(de.getMessage(), de);
 				return null;
@@ -111,7 +116,7 @@ public class EventoServiceImpl implements EventoService {
 		@Override
 		protected Evento doInBackground(Integer... params) {
 			try {
-				return dao.find(params[0]);
+				return httpDao.find(params[0]);
 			} catch (DaoException de) {
 				this.exception = new ServiceException(de.getMessage(), de);
 				return null;
@@ -143,7 +148,7 @@ public class EventoServiceImpl implements EventoService {
 		@Override
 		protected List<Evento> doInBackground(Void... params) {
 			try {
-				return dao.findAll();
+				return httpDao.findAll();
 			} catch (DaoException de) {
 				this.exception = new ServiceException(de.getMessage(), de);
 				return null;
@@ -175,7 +180,7 @@ public class EventoServiceImpl implements EventoService {
 		@Override
 		protected Integer doInBackground(Evento... params) {
 			try {
-				Integer objId = dao.save(params[0]);
+				Integer objId = httpDao.save(params[0]);
 				return objId;
 			} catch (DaoException de) {
 				this.exception = new ServiceException(de.getMessage(), de);

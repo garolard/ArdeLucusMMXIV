@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import es.gabrielferreiro.apps.ardelucusmmxiv.ArdeLucusApp;
 import es.gabrielferreiro.apps.ardelucusmmxiv.db.annotation.Column;
 import es.gabrielferreiro.apps.ardelucusmmxiv.db.annotation.Table;
 import android.annotation.SuppressLint;
@@ -27,6 +28,14 @@ public abstract class BaseDaoSQLiteImpl<T, PK> {
 	protected Class<T> tClass;
 	protected Context mContext;
 	protected SQLiteDatabase mDB;
+	
+	public BaseDaoSQLiteImpl(Class<T> clazz) {
+		this.mContext = ArdeLucusApp.mContext;
+		if (ArdeLucusApp.mDatabaseConnection != null) {
+			this.mDB = ArdeLucusApp.mDatabaseConnection.getDatabase();
+		}
+		this.tClass = clazz;
+	}
 	
 	public void createTable() {
 		if (getTableName(tClass) == null) {
