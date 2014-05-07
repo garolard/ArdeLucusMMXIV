@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import es.gabrielferreiro.apps.ardelucusmmxiv.dao.EventoDao;
+import es.gabrielferreiro.apps.ardelucusmmxiv.exception.DaoException;
 import es.gabrielferreiro.apps.ardelucusmmxiv.model.Evento;
 
 /**
@@ -80,6 +81,12 @@ public class EventoDaoMockImpl implements EventoDao {
 	public Integer save(Evento obj) {
 		mockEvents.add(obj);
 		return obj.getId();
+	}
+
+	@Override
+	public boolean isLocalDatabaseUpdated() throws DaoException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

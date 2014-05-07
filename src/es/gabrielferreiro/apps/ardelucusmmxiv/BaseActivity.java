@@ -16,9 +16,18 @@ import android.os.Bundle;
 public class BaseActivity extends Activity {
 
 	protected int connectivityStatus;
+	protected boolean busy;
 	
 	public int getConnectivityStatus() {
 		return connectivityStatus;
+	}
+	
+	public void setBusy(boolean busy) {
+		this.busy = busy;
+	}
+	
+	public boolean isBusy() {
+		return busy;
 	}
 	
 	@Override

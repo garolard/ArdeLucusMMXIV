@@ -37,7 +37,7 @@ public abstract class BaseDaoSQLiteImpl<T, PK> {
 		this.tClass = clazz;
 	}
 	
-	public void createTable() {
+	public void createTable(SQLiteDatabase db) {
 		if (getTableName(tClass) == null) {
 			return;
 		}
@@ -76,7 +76,8 @@ public abstract class BaseDaoSQLiteImpl<T, PK> {
 		}
 		
 		sql.append(");");
-		mDB.execSQL(sql.toString());
+		String sqlStatement = sql.toString();
+		db.execSQL(sqlStatement);
 	}
 	
 	/* Annotations and SQL Queries generation helpers */

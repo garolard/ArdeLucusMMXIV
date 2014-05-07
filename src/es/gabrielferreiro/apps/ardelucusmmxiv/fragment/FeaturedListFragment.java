@@ -8,10 +8,12 @@ import java.util.List;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.AdapterView.OnItemClickListener;
+import es.gabrielferreiro.apps.ardelucusmmxiv.BaseActivity;
 import es.gabrielferreiro.apps.ardelucusmmxiv.R;
 import es.gabrielferreiro.apps.ardelucusmmxiv.adapter.FeaturedListAdapter;
 import es.gabrielferreiro.apps.ardelucusmmxiv.async.AsyncHandler;
@@ -42,22 +44,33 @@ public class FeaturedListFragment extends ListFragment implements
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		
-		eventoService.findAllAsync(new AsyncHandler() {
+		eventoService.updateLocalDatabaseIfNeeded(new AsyncHandler() {
 			
-			@SuppressWarnings("unchecked")
 			@Override
 			public void onSuccess(Object result) {
-				allEventos = (List<Evento>) result;
-				ListAdapter adapter = new FeaturedListAdapter(getActivity(), allEventos);
-				setListAdapter(adapter);
+				eventoService.findAllAsync(new LoadFeaturedEventsHandler());				
 			}
 			
 			@Override
-			public void onError(Object result, Exception exception) {}
-			
-		});
+			public void onError(Object result, Exception exception) {
+				Log.e("ArdeLucus", exception.getMessage());
+			}
+		});		
+	}
+	
+	private class LoadFeaturedEventsHandler implements AsyncHandler {
+		@SuppressWarnings("unchecked")
+		@Override
+		public void onSuccess(Object result) {
+			allEventos = (List<Evento>) result;
+			ListAdapter adapter = new FeaturedListAdapter(getActivity(), allEventos);
+			setListAdapter(adapter);
+		}
 		
+		@Override
+		public void onError(Object result, Exception exception) {
+			Log.e("ArdeLucus", exception.getMessage());
+		}
 	}
 
 	@Override

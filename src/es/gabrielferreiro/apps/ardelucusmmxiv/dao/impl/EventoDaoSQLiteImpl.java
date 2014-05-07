@@ -65,8 +65,13 @@ public class EventoDaoSQLiteImpl extends BaseDaoSQLiteImpl<Evento, Integer> impl
 	 */
 	@Override
 	public Integer save(Evento obj) throws DaoException {
-		// TODO Auto-generated method stub
-		return null;
+
+		if (mDB == null) {
+			return -1;
+		}
+		
+		return (int) insert(obj);
+		
 	}
 
 	/* (non-Javadoc)
@@ -110,6 +115,12 @@ public class EventoDaoSQLiteImpl extends BaseDaoSQLiteImpl<Evento, Integer> impl
 		}
 		
 		return eventos;
+	}
+
+	@Override
+	public boolean isLocalDatabaseUpdated() throws DaoException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

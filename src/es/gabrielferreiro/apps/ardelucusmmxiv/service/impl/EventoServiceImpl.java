@@ -5,8 +5,12 @@ package es.gabrielferreiro.apps.ardelucusmmxiv.service.impl;
 
 import java.util.List;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import es.gabrielferreiro.apps.ardelucusmmxiv.ArdeLucusApp;
 import es.gabrielferreiro.apps.ardelucusmmxiv.async.AsyncHandler;
+import es.gabrielferreiro.apps.ardelucusmmxiv.connectivity.NetworkUtil;
 import es.gabrielferreiro.apps.ardelucusmmxiv.dao.EventoDao;
 import es.gabrielferreiro.apps.ardelucusmmxiv.dao.impl.DaoFactory;
 import es.gabrielferreiro.apps.ardelucusmmxiv.exception.DaoException;
@@ -26,7 +30,8 @@ public class EventoServiceImpl implements EventoService {
 	private EventoDao sqliteDao;
 	
 	public EventoServiceImpl() {
-		httpDao = DaoFactory.getEventoMockInstance();
+		httpDao = DaoFactory.getEventoHttpInstance();
+		sqliteDao = DaoFactory.getEventoSQLiteInstance();
 	}
 	
 	@Override
@@ -35,7 +40,12 @@ public class EventoServiceImpl implements EventoService {
 	}
 	
 	@Override
-	public void updateLocalDatabaseIfNeeded() {
+	public void updateLocalDatabaseIfNeeded(AsyncHandler handler) {
+		/*if (connectivityStatus == NetworkUtil.TYPE_NOT_CONNECTED) {
+			return;
+		}*/
+		
+		new UpdateDataTask(handler).execute();
 	}
 	
 	@Override
@@ -71,6 +81,59 @@ public class EventoServiceImpl implements EventoService {
 		proxy.execute(obj);
 	}
 	
+	private class UpdateDataTask extends AsyncTask<Void, Void, Void> {
+		
+		private AsyncHandler handler;
+		private ServiceException exception;
+		
+		public UpdateDataTask(AsyncHandler handler) {
+			this.handler = handler;
+			this.exception = null;
+		}
+
+		@Override
+		protected Void doInBackground(Void... args) {
+			boolean isLocalDataUpdated = false;
+			
+			try {
+				isLocalDataUpdated = httpDao.isLocalDatabaseUpdated();
+			} catch (DaoException de) {
+				this.exception = new ServiceException(de.getMessage(), de);
+				return null;
+			}
+			
+			if (!isLocalDataUpdated) {
+				try {
+					List<Evento> allEvents = httpDao.findAll();
+					
+					for (Evento evento : allEvents) {
+						sqliteDao.save(evento);
+					}
+					
+					SharedPreferences appPreferences = ArdeLucusApp.mContext.getSharedPreferences("ArdeLucusPreferences", Context.MODE_PRIVATE);
+					SharedPreferences.Editor editor = appPreferences.edit();
+					editor.putString("localDataVersion", ArdeLucusApp.localDataVersion);
+					editor.commit();
+					
+				} catch (DaoException e) {
+					this.exception = new ServiceException(e.getMessage(), e);
+				}
+				
+			}
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			if (this.exception == null) {
+				this.handler.onSuccess(null);
+			} else {
+				this.handler.onError(null, exception);
+			}
+		}
+		
+	}
+	
 	private class FindByCategoryTaskProxy extends AsyncTask<String, Void, List<Evento>> {
 
 		private AsyncHandler handler;
@@ -84,7 +147,7 @@ public class EventoServiceImpl implements EventoService {
 		@Override
 		protected List<Evento> doInBackground(String... params) {
 			try {
-				return httpDao.findByCategory(params[0]);
+				return sqliteDao.findByCategory(params[0]);
 			} catch (DaoException de) {
 				this.exception = new ServiceException(de.getMessage(), de);
 				return null;
@@ -116,7 +179,7 @@ public class EventoServiceImpl implements EventoService {
 		@Override
 		protected Evento doInBackground(Integer... params) {
 			try {
-				return httpDao.find(params[0]);
+				return sqliteDao.find(params[0]);
 			} catch (DaoException de) {
 				this.exception = new ServiceException(de.getMessage(), de);
 				return null;
@@ -148,7 +211,7 @@ public class EventoServiceImpl implements EventoService {
 		@Override
 		protected List<Evento> doInBackground(Void... params) {
 			try {
-				return httpDao.findAll();
+				return sqliteDao.findAll();
 			} catch (DaoException de) {
 				this.exception = new ServiceException(de.getMessage(), de);
 				return null;
@@ -180,7 +243,7 @@ public class EventoServiceImpl implements EventoService {
 		@Override
 		protected Integer doInBackground(Evento... params) {
 			try {
-				Integer objId = httpDao.save(params[0]);
+				Integer objId = sqliteDao.save(params[0]);
 				return objId;
 			} catch (DaoException de) {
 				this.exception = new ServiceException(de.getMessage(), de);

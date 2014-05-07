@@ -10,6 +10,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import es.gabrielferreiro.apps.ardelucusmmxiv.ArdeLucusApp;
 import es.gabrielferreiro.apps.ardelucusmmxiv.dao.EventoDao;
 import es.gabrielferreiro.apps.ardelucusmmxiv.exception.DaoException;
 import es.gabrielferreiro.apps.ardelucusmmxiv.exception.HttpRequestException;
@@ -24,6 +28,40 @@ import es.gabrielferreiro.apps.ardelucusmmxiv.model.Evento;
 public class EventoDaoHttpImpl implements EventoDao {
 
 	private static final String EVENTOS_URL = "http://10.0.2.2/ardeapi/eventos";
+	
+	@Override
+	public boolean isLocalDatabaseUpdated() throws DaoException {
+
+		String[] sections = EVENTOS_URL.split("/ev");
+		StringBuilder targetUriBuilder = new StringBuilder(sections[0]);
+		targetUriBuilder.append("/");
+		targetUriBuilder.append("dataversion");
+		String targetUri = targetUriBuilder.toString();
+		
+		String versionAsJson = "";
+		String version = "";
+		
+		try {
+			versionAsJson = HttpClientHelper.GET(targetUri);
+			JSONObject jsonObject = new JSONObject(versionAsJson);
+			version = jsonObject.getString("version");
+		} catch (HttpRequestException hre) {
+			throw new DaoException(hre.getMessage(), hre);
+		} catch (JSONException je) {
+			throw new DaoException(je.getMessage(), je);
+		}
+		
+		SharedPreferences appPreferences = ArdeLucusApp.mContext.getSharedPreferences("ArdeLucusPreferences", Context.MODE_PRIVATE);
+		String versionFromPrefs = appPreferences.getString("localDataVersion", "");
+		
+		if (versionFromPrefs.equalsIgnoreCase("") || !versionFromPrefs.equalsIgnoreCase(version)) {
+			ArdeLucusApp.localDataVersion = version;
+			return false;
+		} else {
+			return true;
+		}
+		
+	}
 	
 	@Override
 	public List<Evento> findByCategory(String category) {

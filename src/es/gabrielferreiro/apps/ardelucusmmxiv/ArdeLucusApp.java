@@ -14,6 +14,7 @@ import android.content.Context;
 public class ArdeLucusApp extends Application {
 
 	public static Context mContext;
+	public static String localDataVersion = "";
 	public static DatabaseConnection mDatabaseConnection;
 	
 	@Override

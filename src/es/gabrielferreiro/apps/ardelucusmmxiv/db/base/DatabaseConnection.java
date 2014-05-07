@@ -32,8 +32,8 @@ public class DatabaseConnection {
 
 		@Override
 		public void onCreate(final SQLiteDatabase db) {
-			new EventoDaoSQLiteImpl(Evento.class).createTable();
-			new LocalDaoSQLiteImpl(Local.class).createTable();
+			new EventoDaoSQLiteImpl(Evento.class).createTable(db);
+			new LocalDaoSQLiteImpl(Local.class).createTable(db);
 		}
 
 		@Override

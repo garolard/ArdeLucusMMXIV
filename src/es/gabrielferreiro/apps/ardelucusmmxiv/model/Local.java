@@ -24,7 +24,7 @@ public class Local implements Serializable {
 
 	private static final long serialVersionUID = -5746361331079117481L;
 
-	@Column(isPrimaryKey = true, isAutoincrement = true)
+	@Column(type = "INTEGER", isPrimaryKey = true, isAutoincrement = true)
 	private Integer _id;
 	
 	@Column
