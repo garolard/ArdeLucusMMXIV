@@ -6,6 +6,7 @@ package es.gabrielferreiro.apps.ardelucusmmxiv.adapter;
 import java.util.List;
 
 import es.gabrielferreiro.apps.ardelucusmmxiv.R;
+import es.gabrielferreiro.apps.ardelucusmmxiv.adapter.FeaturedListAdapter.EventoHolder;
 import es.gabrielferreiro.apps.ardelucusmmxiv.model.Evento;
 import es.gabrielferreiro.apps.ardelucusmmxiv.model.Local;
 
@@ -60,21 +61,25 @@ public class EventoListAdapter extends BaseAdapter {
 	 * @see android.widget.Adapter#getView(int, android.view.View, android.view.ViewGroup)
 	 */
 	@Override
-	public View getView(int position, View view, ViewGroup parent) {
+	public View getView(int position, View convertView, ViewGroup parent) {
 		
-		View vi = view;
-		if (vi == null) {
+		View vi = convertView;
+		EventoHolder holder;
+		if (convertView == null) {
 			vi = inflater.inflate(R.layout.evento_list_item, null);
+			holder = new EventoHolder();
+			holder.titulo = (TextView) vi.findViewById(R.id.tituloEvento);
+			holder.descripcion = (TextView) vi.findViewById(R.id.descripcionEvento);
+			holder.fecha = (TextView) vi.findViewById(R.id.fechaEvento);
+			vi.setTag(holder);
 		}
-		
-		TextView nombre = (TextView) vi.findViewById(R.id.tituloEvento);
-		TextView descripcion = (TextView) vi.findViewById(R.id.descripcionEvento);
-		TextView direccion = (TextView) vi.findViewById(R.id.fechaEvento);
 		Evento actualItem = eventos.get(position);
+		holder = (EventoHolder) vi.getTag();
 		
-		nombre.setText(actualItem.getTitulo());
-		descripcion.setText(actualItem.getDescripcion());
-		direccion.setText(actualItem.getTiempoRealizacion().toString());
+		holder.titulo.setText(actualItem.getTitulo());
+		holder.descripcion.setText(actualItem.getDescripcion());
+		String fechaRealizacion = actualItem.getTiempoRealizacion() != null ? actualItem.getTiempoRealizacion().toString() : "Sin fecha";
+		holder.fecha.setText(fechaRealizacion);
 		
 		return vi;
 		

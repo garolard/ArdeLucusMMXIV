@@ -43,23 +43,35 @@ public class FeaturedListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View view, ViewGroup parent) {
+	public View getView(int position, View convertView, ViewGroup parent) {
 		
-		View vi = view;
-		if (vi == null) {
+		View vi = convertView;
+		EventoHolder holder;
+		if (convertView == null) {
 			vi = inflater.inflate(R.layout.featured_item_layout, null);
+			holder = new EventoHolder();
+			holder.titulo = (TextView) vi.findViewById(R.id.tituloItem);
+			holder.descripcion = (TextView) vi.findViewById(R.id.descripcionItem);
+			holder.fecha = (TextView) vi.findViewById(R.id.fechaItem);
+			vi.setTag(holder);
 		}
 		
-		TextView titulo = (TextView) vi.findViewById(R.id.tituloItem);
-		TextView descripcion = (TextView) vi.findViewById(R.id.descripcionItem);
-		TextView fecha = (TextView) vi.findViewById(R.id.fechaItem);
 		Evento actualItem = this.events.get(position);
+		holder = (EventoHolder) vi.getTag();
 		
-		titulo.setText(actualItem.getTitulo());
-		descripcion.setText(actualItem.getDescripcion());
-		fecha.setText(actualItem.getTiempoRealizacion().toString());
+		holder.titulo.setText(actualItem.getTitulo());
+		holder.descripcion.setText(actualItem.getDescripcion());
+		String fechaRealizacion = actualItem.getTiempoRealizacion() != null ? actualItem.getTiempoRealizacion().toString() : "Sin fecha";
+		holder.fecha.setText(fechaRealizacion);
 		
 		return vi;
+	}
+	
+	static class EventoHolder {
+		public TextView titulo;
+		public TextView descripcion;
+		public TextView direccion;
+		public TextView fecha;
 	}
 
 }

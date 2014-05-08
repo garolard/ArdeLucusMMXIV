@@ -8,11 +8,13 @@ import java.util.List;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.util.Log;
 import es.gabrielferreiro.apps.ardelucusmmxiv.ArdeLucusApp;
 import es.gabrielferreiro.apps.ardelucusmmxiv.async.AsyncHandler;
 import es.gabrielferreiro.apps.ardelucusmmxiv.connectivity.NetworkUtil;
 import es.gabrielferreiro.apps.ardelucusmmxiv.dao.EventoDao;
 import es.gabrielferreiro.apps.ardelucusmmxiv.dao.impl.DaoFactory;
+import es.gabrielferreiro.apps.ardelucusmmxiv.dao.impl.EventoDaoSQLiteImpl;
 import es.gabrielferreiro.apps.ardelucusmmxiv.exception.DaoException;
 import es.gabrielferreiro.apps.ardelucusmmxiv.exception.ServiceException;
 import es.gabrielferreiro.apps.ardelucusmmxiv.model.Evento;
@@ -41,9 +43,9 @@ public class EventoServiceImpl implements EventoService {
 	
 	@Override
 	public void updateLocalDatabaseIfNeeded(AsyncHandler handler) {
-		/*if (connectivityStatus == NetworkUtil.TYPE_NOT_CONNECTED) {
+		if (connectivityStatus == NetworkUtil.TYPE_NOT_CONNECTED) {
 			return;
-		}*/
+		}
 		
 		new UpdateDataTask(handler).execute();
 	}
@@ -104,6 +106,8 @@ public class EventoServiceImpl implements EventoService {
 			
 			if (!isLocalDataUpdated) {
 				try {
+					((EventoDaoSQLiteImpl) sqliteDao).clearTable();
+					
 					List<Evento> allEvents = httpDao.findAll();
 					
 					for (Evento evento : allEvents) {

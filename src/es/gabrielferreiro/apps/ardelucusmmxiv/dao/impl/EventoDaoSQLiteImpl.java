@@ -88,7 +88,7 @@ public class EventoDaoSQLiteImpl extends BaseDaoSQLiteImpl<Evento, Integer> impl
 		Cursor cursor = null;
 		
 		synchronized (mDB) {
-			cursor = getAllByCursorWithWhere("where categoria = ?", new String[]{categoryId});
+			cursor = getAllByCursorWithWhere("categoria = ?", new String[]{categoryId});
 		}
 		
 		if (cursor != null && cursor.getCount() > 0) {

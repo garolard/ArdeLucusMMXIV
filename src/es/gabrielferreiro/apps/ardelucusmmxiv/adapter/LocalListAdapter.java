@@ -59,24 +59,34 @@ public class LocalListAdapter extends BaseAdapter {
 	 * @see android.widget.Adapter#getView(int, android.view.View, android.view.ViewGroup)
 	 */
 	@Override
-	public View getView(int position, View view, ViewGroup parent) {
+	public View getView(int position, View convertView, ViewGroup parent) {
 		
-		View vi = view;
-		if (vi == null) {
+		View vi = convertView;
+		LocalHolder holder;
+		if (convertView == null) {
 			vi = inflater.inflate(R.layout.local_list_item, null);
+			holder = new LocalHolder();
+			holder.nombre = (TextView) vi.findViewById(R.id.localName);
+			holder.descripcion = (TextView) vi.findViewById(R.id.localDescription);
+			holder.direccion = (TextView) vi.findViewById(R.id.localAddress);
+			vi.setTag(holder);
 		}
 		
-		TextView nombre = (TextView) vi.findViewById(R.id.localName);
-		TextView descripcion = (TextView) vi.findViewById(R.id.localDescription);
-		TextView direccion = (TextView) vi.findViewById(R.id.localAddress);
 		Local actualItem = locals.get(position);
+		holder = (LocalHolder) vi.getTag();
 		
-		nombre.setText(actualItem.getNombre());
-		descripcion.setText(actualItem.getDescripcion());
-		direccion.setText(actualItem.getDireccion());
+		holder.nombre.setText(actualItem.getNombre());
+		holder.descripcion.setText(actualItem.getDescripcion());
+		holder.direccion.setText(actualItem.getDireccion());
 		
 		return vi;
 		
+	}
+	
+	static class LocalHolder {
+		public TextView nombre;
+		public TextView descripcion;
+		public TextView direccion;
 	}
 
 }

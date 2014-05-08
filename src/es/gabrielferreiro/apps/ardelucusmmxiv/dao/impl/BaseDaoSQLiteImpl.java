@@ -80,6 +80,18 @@ public abstract class BaseDaoSQLiteImpl<T, PK> {
 		db.execSQL(sqlStatement);
 	}
 	
+	public void clearTable() {
+		if (mDB == null || getTableName(tClass) == null) {
+			return;
+		}
+		
+		StringBuilder deleteStmtBuilder = new StringBuilder("DELETE FROM ");
+		deleteStmtBuilder.append(getTableName(tClass));
+		deleteStmtBuilder.append(";");
+		String deleteStmt = deleteStmtBuilder.toString();
+		mDB.execSQL(deleteStmt);
+	}
+	
 	/* Annotations and SQL Queries generation helpers */
 	protected String getTableName(Class<?> tClass) {
 		Table annotationTable = tClass.getAnnotation(Table.class);
@@ -191,7 +203,7 @@ public abstract class BaseDaoSQLiteImpl<T, PK> {
 	
 	/* SQL-to-CRUD helpers*/
 	protected Cursor getByCursor(PK id) {
-		return mDB.query(getTableName(tClass), new String[]{"*"}, "where _id = ?", new String[]{id.toString()}, null, null, null);
+		return mDB.query(getTableName(tClass), new String[]{"*"}, "_id = ?", new String[]{id.toString()}, null, null, null);
 	}
 	
 	protected Cursor getAllByCursor() {
@@ -299,6 +311,10 @@ public abstract class BaseDaoSQLiteImpl<T, PK> {
 	
 	@SuppressLint("SimpleDateFormat")
 	protected Date tryParseDate(String dateAsString) {
+		if (dateAsString == null) {
+			return null;
+		}
+		
 		try {
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 			return format.parse(dateAsString);
@@ -309,6 +325,10 @@ public abstract class BaseDaoSQLiteImpl<T, PK> {
 	
 	@SuppressLint("SimpleDateFormat")
 	protected String tryFormatDate(Date date) {
+		if (date == null) {
+			return "";
+		}
+		
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		return format.format(date);
 	}
