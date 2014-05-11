@@ -44,6 +44,7 @@ public class EventoServiceImpl implements EventoService {
 	@Override
 	public void updateLocalDatabaseIfNeeded(AsyncHandler handler) {
 		if (connectivityStatus == NetworkUtil.TYPE_NOT_CONNECTED) {
+			handler.onError(null, new Exception("No se detecta ninguna conexión a internet."));
 			return;
 		}
 		

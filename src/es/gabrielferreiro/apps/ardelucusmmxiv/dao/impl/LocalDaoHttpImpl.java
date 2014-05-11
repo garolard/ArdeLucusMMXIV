@@ -23,7 +23,8 @@ import es.gabrielferreiro.apps.ardelucusmmxiv.model.Local;
  */
 public class LocalDaoHttpImpl implements LocalDao {
 
-	private static final String LOCALES_URL = "http://10.0.2.2/ardeapi/locales";
+	//private static final String LOCALES_URL = "http://10.0.2.2/ardeapi/locales";
+	private static final String LOCALES_URL = "http://gabrielferreiro.es/arde/api/v1/locales";
 	
 	/* (non-Javadoc)
 	 * @see es.gabrielferreiro.apps.ardelucusmmxiv.dao.Dao#find(java.lang.Object)

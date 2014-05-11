@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="roman_activity_background_color">#AD9600</color>
+    <color name="celtic_actionbar_background_color">#289fc6</color>
+    <color name="night_actionbar_background_color">#4d054c</color>
+    <color name="childhood_actionbar_background_color">#1fbd13</color>
+    
+</resources>

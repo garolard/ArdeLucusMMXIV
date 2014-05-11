@@ -27,7 +27,8 @@ import es.gabrielferreiro.apps.ardelucusmmxiv.model.Evento;
  */
 public class EventoDaoHttpImpl implements EventoDao {
 
-	private static final String EVENTOS_URL = "http://10.0.2.2/ardeapi/eventos";
+	//private static final String EVENTOS_URL = "http://10.0.2.2/ardeapi/eventos";
+	private static final String EVENTOS_URL = "http://gabrielferreiro.es/arde/api/v1/eventos";
 	
 	@Override
 	public boolean isLocalDatabaseUpdated() throws DaoException {

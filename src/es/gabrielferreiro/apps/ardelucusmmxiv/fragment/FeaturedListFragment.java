@@ -5,6 +5,7 @@ package es.gabrielferreiro.apps.ardelucusmmxiv.fragment;
 
 import java.util.List;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
@@ -31,7 +32,9 @@ public class FeaturedListFragment extends ListFragment implements
 	private EventoService eventoService;
 	private List<Evento> allEventos;
 	
-	public FeaturedListFragment() {
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 		eventoService = ServiceFactory.getEventoService();
 	}
 	
@@ -39,38 +42,36 @@ public class FeaturedListFragment extends ListFragment implements
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		getListView().setOnItemClickListener(this);
-	}
-	
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+		getActivity().setTheme(R.style.AppTheme);
 		eventoService.updateLocalDatabaseIfNeeded(new AsyncHandler() {
 			
 			@Override
 			public void onSuccess(Object result) {
-				eventoService.findAllAsync(new LoadFeaturedEventsHandler());				
+				loadAllItems();
+			}
+			
+			@Override
+			public void onError(Object result, Exception exception) {
+				loadAllItems();
+			}
+		});		
+	}
+	
+	private void loadAllItems() {
+		eventoService.findAllAsync(new AsyncHandler() {
+			
+			@Override
+			public void onSuccess(Object result) {
+				allEventos = (List<Evento>) result;
+				ListAdapter adapter = new FeaturedListAdapter(getActivity(), allEventos);
+				setListAdapter(adapter);
 			}
 			
 			@Override
 			public void onError(Object result, Exception exception) {
 				Log.e("ArdeLucus", exception.getMessage());
 			}
-		});		
-	}
-	
-	private class LoadFeaturedEventsHandler implements AsyncHandler {
-		@SuppressWarnings("unchecked")
-		@Override
-		public void onSuccess(Object result) {
-			allEventos = (List<Evento>) result;
-			ListAdapter adapter = new FeaturedListAdapter(getActivity(), allEventos);
-			setListAdapter(adapter);
-		}
-		
-		@Override
-		public void onError(Object result, Exception exception) {
-			Log.e("ArdeLucus", exception.getMessage());
-		}
+		});
 	}
 
 	@Override

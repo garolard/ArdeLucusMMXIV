@@ -5,6 +5,7 @@ package es.gabrielferreiro.apps.ardelucusmmxiv.fragment;
 
 import java.util.List;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Context;
@@ -48,6 +49,7 @@ public class EventoListFragment extends ListFragment implements
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		setUpTheme(eventosCategory);
 		getListView().setOnItemClickListener(this);
 		final Context context = getActivity();
 		
@@ -67,6 +69,22 @@ public class EventoListFragment extends ListFragment implements
 			}
 		});
 		
+	}
+	
+	private void setUpTheme(String category) {
+		if (Evento.ROMANO.equalsIgnoreCase(category)) {
+			getActivity().getActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.roman_actionbar_background));
+			getActivity().getWindow().setBackgroundDrawableResource(R.drawable.roman_activity_background);
+		} else if (Evento.CASTREXO.equalsIgnoreCase(category)) {
+			getActivity().getActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.celtic_actionbar_background));
+			getActivity().getWindow().setBackgroundDrawableResource(R.drawable.celtic_activity_background);
+		} else if (Evento.INFANTIL.equalsIgnoreCase(category)) {
+			getActivity().getActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.childhood_actionbar_background));
+			getActivity().getWindow().setBackgroundDrawableResource(R.drawable.childhood_activity_background);
+		} else if (Evento.NOCTURNO.equalsIgnoreCase(category)) {
+			getActivity().getActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.night_actionbar_background));
+			getActivity().getWindow().setBackgroundDrawableResource(R.drawable.night_activity_background);
+		}
 	}
 
 	/* (non-Javadoc)

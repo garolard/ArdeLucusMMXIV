@@ -40,7 +40,7 @@ public class MainActivity extends BaseActivity {
 		setupNavigationDrawer();
 		initialFragment = new FeaturedListFragment();
 		getFragmentManager().beginTransaction()
-							.add(R.id.container, initialFragment)
+							.replace(R.id.container, initialFragment)
 							.commit();
 	}
 	
