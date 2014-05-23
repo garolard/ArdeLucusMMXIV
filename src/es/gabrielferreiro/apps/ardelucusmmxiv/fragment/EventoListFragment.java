@@ -10,9 +10,12 @@ import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 import es.gabrielferreiro.apps.ardelucusmmxiv.BaseActivity;
 import es.gabrielferreiro.apps.ardelucusmmxiv.R;
@@ -28,8 +31,7 @@ import es.gabrielferreiro.apps.ardelucusmmxiv.service.impl.ServiceFactory;
  * @author Gabriel
  *
  */
-public class EventoListFragment extends ListFragment implements
-		OnItemClickListener {
+public class EventoListFragment extends ListFragment {
 	
 	public static final String CATEGORY_KEY = "eventoCategory";
 	
@@ -47,10 +49,15 @@ public class EventoListFragment extends ListFragment implements
 	}
 	
 	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.base_list_layout, null);
+	}
+	
+	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		setUpTheme(eventosCategory);
-		getListView().setOnItemClickListener(this);
 		final Context context = getActivity();
 		
 		eventoService.findByCategoryAsync(eventosCategory, new AsyncHandler() {
@@ -87,11 +94,8 @@ public class EventoListFragment extends ListFragment implements
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see android.widget.AdapterView.OnItemClickListener#onItemClick(android.widget.AdapterView, android.view.View, int, long)
-	 */
 	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+	public void onListItemClick(ListView l, View v, int position, long id) {
 		
 		Evento evento = eventos.get(position);
 		
@@ -102,10 +106,12 @@ public class EventoListFragment extends ListFragment implements
 		detailFragment.setArguments(arguments);
 		
 		getFragmentManager().beginTransaction()
+							.setCustomAnimations(R.anim.slide_in_left_to_right, R.anim.slide_out_right_to_left,
+												 R.anim.slide_in_left_to_right, R.anim.slide_out_right_to_left)
 							.replace(R.id.container, detailFragment)
 							.addToBackStack(getTag())
 							.commit();
-
+		
 	}
 
 }

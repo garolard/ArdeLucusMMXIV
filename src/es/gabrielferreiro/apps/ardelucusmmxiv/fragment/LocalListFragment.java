@@ -16,18 +16,20 @@ import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 
 /**
  * @author Gabriel
  *
  */
-public class LocalListFragment extends ListFragment implements
-		OnItemClickListener {
+public class LocalListFragment extends ListFragment {
 
 	public static final String CATEGORY_KEY = "localCategory";
 	
@@ -45,9 +47,14 @@ public class LocalListFragment extends ListFragment implements
 	}
 	
 	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.base_list_layout, null);
+	}
+	
+	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		getListView().setOnItemClickListener(this);
 		final Context context = getActivity();
 		
 		localService.findByCategoryAsync(localesCategory, new AsyncHandler() {
@@ -69,7 +76,7 @@ public class LocalListFragment extends ListFragment implements
 	}
 	
 	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+	public void onListItemClick(ListView l, View v, int position, long id) {
 		
 		Local local = locales.get(position);
 		
@@ -80,10 +87,12 @@ public class LocalListFragment extends ListFragment implements
 		detailFragment.setArguments(arguments);
 		
 		getFragmentManager().beginTransaction()
+							.setCustomAnimations(R.anim.slide_in_left_to_right, R.anim.slide_out_right_to_left,
+												 R.anim.slide_in_left_to_right, R.anim.slide_out_right_to_left)
 							.replace(R.id.container, detailFragment)
 							.addToBackStack(getTag())
 							.commit();
-
+		
 	}
 
 }

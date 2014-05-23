@@ -2,14 +2,24 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/card_background" >
+    android:background="@drawable/base_list_item_layout" >
 
+    <ImageView
+        android:id="@+id/imagenEvento"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/rounded_corners_background" />
+    
     <TextView
         android:id="@+id/tituloEvento"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" />
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/imagenEvento"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/descripcionEvento"

@@ -2,15 +2,20 @@ package es.gabrielferreiro.apps.ardelucusmmxiv.adapter;
 
 import java.util.List;
 
+import es.gabrielferreiro.apps.ardelucusmmxiv.ArdeLucusApp;
 import es.gabrielferreiro.apps.ardelucusmmxiv.R;
+import es.gabrielferreiro.apps.ardelucusmmxiv.helper.ImageHelper;
 import es.gabrielferreiro.apps.ardelucusmmxiv.model.Evento;
 
-import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.provider.SyncStateContract.Helpers;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class FeaturedListAdapter extends BaseAdapter {
@@ -18,13 +23,16 @@ public class FeaturedListAdapter extends BaseAdapter {
 	private List<Evento> events;
 	private LayoutInflater inflater;
 	private Context context;
-	private Activity activity;
 	
-	public FeaturedListAdapter(Activity activity, List<Evento> events) {
+	public FeaturedListAdapter(Context context, List<Evento> events) {
 		this.events = events;
-		this.activity = activity;
-		this.context = activity;
-		this.inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		this.context = context;
+		// Llamada de socorro por si llega context a null,
+		// el texto de los items se verá semi-transparente pero la aplicación no fallará
+		if (context == null) {
+			this.inflater = (LayoutInflater) ArdeLucusApp.mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		}
+		this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 	
 	@Override
@@ -68,6 +76,7 @@ public class FeaturedListAdapter extends BaseAdapter {
 	}
 	
 	static class EventoHolder {
+		public ImageView imagen;
 		public TextView titulo;
 		public TextView descripcion;
 		public TextView direccion;

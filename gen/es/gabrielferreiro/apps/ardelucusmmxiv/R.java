@@ -8,18 +8,26 @@
 package es.gabrielferreiro.apps.ardelucusmmxiv;
 
 public final class R {
+    public static final class anim {
+        public static final int card_flip_left_in=0x7f040000;
+        public static final int card_flip_left_out=0x7f040001;
+        public static final int card_flip_right_in=0x7f040002;
+        public static final int card_flip_right_out=0x7f040003;
+        public static final int slide_in_left_to_right=0x7f040004;
+        public static final int slide_out_right_to_left=0x7f040005;
+    }
     public static final class array {
         /**  Nav Drawer Menu Items 
          */
-        public static final int nav_drawer_items=0x7f070000;
+        public static final int nav_drawer_items=0x7f080000;
     }
     public static final class attr {
     }
     public static final class color {
-        public static final int celtic_actionbar_background_color=0x7f040001;
-        public static final int childhood_actionbar_background_color=0x7f040003;
-        public static final int night_actionbar_background_color=0x7f040002;
-        public static final int roman_activity_background_color=0x7f040000;
+        public static final int celtic_actionbar_background_color=0x7f050001;
+        public static final int childhood_actionbar_background_color=0x7f050003;
+        public static final int night_actionbar_background_color=0x7f050002;
+        public static final int roman_activity_background_color=0x7f050000;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -28,52 +36,69 @@ public final class R {
          screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
     
          */
-        public static final int activity_horizontal_margin=0x7f050000;
-        public static final int activity_vertical_margin=0x7f050001;
+        public static final int activity_horizontal_margin=0x7f060000;
+        public static final int activity_vertical_margin=0x7f060001;
     }
     public static final class drawable {
-        public static final int card_background=0x7f020000;
-        public static final int celtic_actionbar_background=0x7f020001;
-        public static final int celtic_activity_background=0x7f020002;
-        public static final int childhood_actionbar_background=0x7f020003;
-        public static final int childhood_activity_background=0x7f020004;
-        public static final int drawer_shadow=0x7f020005;
-        public static final int ic_drawer=0x7f020006;
-        public static final int ic_launcher=0x7f020007;
-        public static final int night_actionbar_background=0x7f020008;
-        public static final int night_activity_background=0x7f020009;
-        public static final int roman_actionbar_background=0x7f02000a;
-        public static final int roman_activity_background=0x7f02000b;
+        public static final int base_list_item_layout=0x7f020000;
+        public static final int card_background=0x7f020001;
+        public static final int celtic_actionbar_background=0x7f020002;
+        public static final int celtic_activity_background=0x7f020003;
+        public static final int childhood_actionbar_background=0x7f020004;
+        public static final int childhood_activity_background=0x7f020005;
+        public static final int drawer_shadow=0x7f020006;
+        public static final int ic_drawer=0x7f020007;
+        public static final int ic_launcher=0x7f020008;
+        public static final int ic_menu_share_holo_light=0x7f020009;
+        public static final int ic_twitter=0x7f02000a;
+        public static final int night_actionbar_background=0x7f02000b;
+        public static final int night_activity_background=0x7f02000c;
+        public static final int pressed_card_background=0x7f02000d;
+        public static final int roman_actionbar_background=0x7f02000e;
+        public static final int roman_activity_background=0x7f02000f;
+        public static final int romanos=0x7f020010;
+        public static final int rounded_corners_background=0x7f020011;
     }
     public static final class id {
-        public static final int action_settings=0x7f0a000c;
-        public static final int container=0x7f0a0001;
-        public static final int descripcionEvento=0x7f0a0004;
-        public static final int descripcionItem=0x7f0a0007;
-        public static final int drawer_layout=0x7f0a0000;
-        public static final int fechaEvento=0x7f0a0005;
-        public static final int fechaItem=0x7f0a0008;
-        public static final int left_drawer=0x7f0a0002;
-        public static final int localAddress=0x7f0a000b;
-        public static final int localDescription=0x7f0a000a;
-        public static final int localName=0x7f0a0009;
-        public static final int tituloEvento=0x7f0a0003;
-        public static final int tituloItem=0x7f0a0006;
+        public static final int action_settings=0x7f0b0014;
+        public static final int container=0x7f0b0001;
+        public static final int descripcionEvento=0x7f0b000c;
+        public static final int descripcionItem=0x7f0b000f;
+        public static final int drawer_header_text=0x7f0b0003;
+        public static final int drawer_item_icon=0x7f0b0004;
+        public static final int drawer_item_text=0x7f0b0005;
+        public static final int drawer_layout=0x7f0b0000;
+        public static final int fechaEvento=0x7f0b000d;
+        public static final int fechaItem=0x7f0b0010;
+        public static final int imageButton1=0x7f0b0008;
+        public static final int imageButton2=0x7f0b0009;
+        public static final int imageView1=0x7f0b0006;
+        public static final int imagenEvento=0x7f0b000a;
+        public static final int left_drawer=0x7f0b0002;
+        public static final int localAddress=0x7f0b0013;
+        public static final int localDescription=0x7f0b0012;
+        public static final int localName=0x7f0b0011;
+        public static final int textView1=0x7f0b0007;
+        public static final int tituloEvento=0x7f0b000b;
+        public static final int tituloItem=0x7f0b000e;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
-        public static final int drawer_list_item=0x7f030001;
-        public static final int evento_list_item=0x7f030002;
-        public static final int featured_item_layout=0x7f030003;
-        public static final int local_list_item=0x7f030004;
+        public static final int base_list_layout=0x7f030001;
+        public static final int drawer_header_item=0x7f030002;
+        public static final int drawer_list_item=0x7f030003;
+        public static final int evento_detail_layout=0x7f030004;
+        public static final int evento_list_item=0x7f030005;
+        public static final int featured_item_layout=0x7f030006;
+        public static final int local_list_item=0x7f030007;
     }
     public static final class menu {
-        public static final int main=0x7f090000;
+        public static final int main=0x7f0a0000;
     }
     public static final class string {
-        public static final int action_settings=0x7f060001;
-        public static final int app_name=0x7f060000;
-        public static final int hello_world=0x7f060002;
+        public static final int action_settings=0x7f070001;
+        public static final int app_name=0x7f070000;
+        public static final int hello_world=0x7f070002;
     }
     public static final class style {
         /** 
@@ -97,14 +122,14 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f080000;
+        public static final int AppBaseTheme=0x7f090000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f080001;
-        public static final int CelticActionBarStyle=0x7f080003;
-        public static final int ChildActionBarStyle=0x7f080004;
-        public static final int NightActionBarStyle=0x7f080005;
-        public static final int RomanActionBarStyle=0x7f080002;
+        public static final int AppTheme=0x7f090001;
+        public static final int CelticActionBarStyle=0x7f090003;
+        public static final int ChildActionBarStyle=0x7f090004;
+        public static final int NightActionBarStyle=0x7f090005;
+        public static final int RomanActionBarStyle=0x7f090002;
     }
 }

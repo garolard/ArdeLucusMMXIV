@@ -47,6 +47,8 @@ public class Evento implements Serializable {
 	@Column
 	private String categoria;
 	
+	private String imageUrl;
+	
 	public Integer getId() {
 		return _id;
 	}
@@ -94,6 +96,12 @@ public class Evento implements Serializable {
 	}
 	public void setCategoria(String categoria) {
 		this.categoria = categoria;
+	}
+	public String getImageUrl() {
+		return imageUrl;
+	}
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 	
 }

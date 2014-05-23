@@ -1,5 +1,10 @@
 package es.gabrielferreiro.apps.ardelucusmmxiv;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import es.gabrielferreiro.apps.ardelucusmmxiv.adapter.NavigationDrawerAdapter;
+import es.gabrielferreiro.apps.ardelucusmmxiv.adapter.NavigationDrawerItem;
 import es.gabrielferreiro.apps.ardelucusmmxiv.fragment.EventoListFragment;
 import es.gabrielferreiro.apps.ardelucusmmxiv.fragment.FeaturedListFragment;
 import es.gabrielferreiro.apps.ardelucusmmxiv.fragment.LocalListFragment;
@@ -30,7 +35,7 @@ public class MainActivity extends BaseActivity {
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
-	private String[] mDrawerItems;
+	private List<NavigationDrawerItem> mDrawerItems;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,12 +50,16 @@ public class MainActivity extends BaseActivity {
 	}
 	
 	private void setupNavigationDrawer() {
-		mDrawerItems = getResources().getStringArray(R.array.nav_drawer_items);
+		
+		mDrawerItems = createNavigationDrawerItems();
+		
+		//mDrawerItems = getResources().getStringArray(R.array.nav_drawer_items);
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
 		
 		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-		mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mDrawerItems));
+		//mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mDrawerItems));
+		mDrawerList.setAdapter(new NavigationDrawerAdapter(getApplicationContext(), 0, mDrawerItems));
 		mDrawerList.setOnItemClickListener(new OnNavigationDrawerItemClicked());
 		
 		getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -89,58 +98,60 @@ public class MainActivity extends BaseActivity {
 		
 		Fragment fragment = null;
 		Bundle fragmentArguments = null;
+		NavigationDrawerItem item = mDrawerItems.get(position);
+		String itemTitle = item.title;
 		
-		switch (position) {
-		
-		case 0:
+		if (itemTitle.equalsIgnoreCase("programa")) {
 			fragment = new FeaturedListFragment();
-			break;
-			
-		case 1:
+		}
+		
+		if (itemTitle.equalsIgnoreCase("romanos")) {
 			fragment = new EventoListFragment();
 			fragmentArguments = new Bundle(1);
 			fragmentArguments.putString(EventoListFragment.CATEGORY_KEY, Evento.ROMANO);
 			fragment.setArguments(fragmentArguments);
-			break;
-			
-		case 2:
+		}
+		
+		if (itemTitle.equalsIgnoreCase("castrexos")) {
 			fragment = new EventoListFragment();
 			fragmentArguments = new Bundle(1);
 			fragmentArguments.putString(EventoListFragment.CATEGORY_KEY, Evento.CASTREXO);
 			fragment.setArguments(fragmentArguments);
-			break;
-			
-		case 3:
+		}
+		
+		if (itemTitle.equalsIgnoreCase("infantil")) {
 			fragment = new EventoListFragment();
 			fragmentArguments = new Bundle(1);
 			fragmentArguments.putString(EventoListFragment.CATEGORY_KEY, Evento.INFANTIL);
 			fragment.setArguments(fragmentArguments);
-			break;
-			
-		case 4:
-			fragment = new LocalListFragment();
+		}
+		
+		if (itemTitle.equalsIgnoreCase("nocturnos")) {
+			fragment = new EventoListFragment();
 			fragmentArguments = new Bundle(1);
-			fragmentArguments.putString(LocalListFragment.CATEGORY_KEY, Local.TIENDA);
+			fragmentArguments.putString(EventoListFragment.CATEGORY_KEY, Evento.NOCTURNO);
 			fragment.setArguments(fragmentArguments);
-			break;
-			
-		case 5:
+		}
+		
+		if (itemTitle.equalsIgnoreCase("restauración")) {
 			fragment = new LocalListFragment();
 			fragmentArguments = new Bundle(1);
 			fragmentArguments.putString(LocalListFragment.CATEGORY_KEY, Local.RESTAURACION);
 			fragment.setArguments(fragmentArguments);
-			break;
-			
-		case 6:
+		}
+		
+		if (itemTitle.equalsIgnoreCase("recuerdos")) {
+			fragment = new LocalListFragment();
+			fragmentArguments = new Bundle(1);
+			fragmentArguments.putString(LocalListFragment.CATEGORY_KEY, Local.TIENDA);
+			fragment.setArguments(fragmentArguments);
+		}
+		
+		if (itemTitle.equalsIgnoreCase("entretenimiento")) {
 			fragment = new LocalListFragment();
 			fragmentArguments = new Bundle(1);
 			fragmentArguments.putString(LocalListFragment.CATEGORY_KEY, Local.NOCTURNO);
 			fragment.setArguments(fragmentArguments);
-			break;
-			
-		default:
-			fragment = new FeaturedListFragment();
-
 		}
 		
 		clearBackStack();
@@ -193,6 +204,67 @@ public class MainActivity extends BaseActivity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+	
+	private List<NavigationDrawerItem> createNavigationDrawerItems() {
+		List<NavigationDrawerItem> items = new ArrayList<NavigationDrawerItem>();
+		
+		NavigationDrawerItem eventosHeader = new NavigationDrawerItem(
+													NavigationDrawerItem.TYPE_HEADER,
+													"Eventos",
+													0);
+		items.add(eventosHeader);
+		
+		NavigationDrawerItem programaItem = new NavigationDrawerItem(
+													NavigationDrawerItem.TYPE_NORMAL,
+													"Programa",
+													0);
+		items.add(programaItem);
+		
+		NavigationDrawerItem romanosItem = new NavigationDrawerItem(
+													NavigationDrawerItem.TYPE_NORMAL,
+													"Romanos",
+													0);
+		items.add(romanosItem);
+		
+		NavigationDrawerItem castrexosItem = new NavigationDrawerItem(
+													NavigationDrawerItem.TYPE_NORMAL,
+													"Castrexos",
+													0);
+		items.add(castrexosItem);
+		
+		NavigationDrawerItem infantilItem = new NavigationDrawerItem(
+													NavigationDrawerItem.TYPE_NORMAL,
+													"Infantil",
+													0);
+		items.add(infantilItem);
+		
+		NavigationDrawerItem nocturnosItem = new NavigationDrawerItem(
+													NavigationDrawerItem.TYPE_NORMAL,
+													"Nocturnos",
+													0);
+		items.add(nocturnosItem);
+		
+		
+		NavigationDrawerItem localesHeader = new NavigationDrawerItem(
+													NavigationDrawerItem.TYPE_HEADER,
+													"Locales",
+													0);
+		items.add(localesHeader);
+		
+		NavigationDrawerItem restauracionItem = new NavigationDrawerItem(
+													NavigationDrawerItem.TYPE_NORMAL,
+													"Restauración",
+													0);
+		items.add(restauracionItem);
+		
+		NavigationDrawerItem recuerdosItem = new NavigationDrawerItem(
+													NavigationDrawerItem.TYPE_NORMAL,
+													"Recuerdos",
+													0);
+		items.add(recuerdosItem);
+		
+		return items;
 	}
 	
 }
